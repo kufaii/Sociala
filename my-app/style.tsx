@@ -24,6 +24,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingBottom: 1,
   },
+  standingView: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginLeft: 10,
+  },
+  standingImage: {
+    width: 40,
+    height: 40,
+    alignItems: "center",
+  },
 });
 
 export default styles;

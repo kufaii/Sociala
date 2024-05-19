@@ -24,19 +24,34 @@ export default function standing() {
               borderColor: "#eecc6a",
               borderWidth: 3,
               marginBottom: 10,
-              justifyContent: "center",
+              justifyContent: "space-evenly",
               alignItems: "center",
+              gap: 5,
             }}
           >
-            <View style={{ justifyContent: "space-between" }}>
-              <View>
-                <Text> Leader Board </Text>
-              </View>
-              <View>
-                <ProfileStandings />
-                <ProfileStandings />
-                <ProfileStandings />
-              </View>
+            <Text style={{ fontSize: 18, fontWeight: "800" }}>
+              -- Leader Board --
+            </Text>
+            <View style={styles.standingView}>
+              <Image
+                source={require("../assets/images/1st.png")}
+                style={styles.standingImage}
+              />
+              <ProfileStandings />
+            </View>
+            <View style={styles.standingView}>
+              <Image
+                source={require("../assets/images/2nd.png")}
+                style={styles.standingImage}
+              />
+              <ProfileStandings />
+            </View>
+            <View style={styles.standingView}>
+              <Image
+                source={require("../assets/images/3rd.png")}
+                style={styles.standingImage}
+              />
+              <ProfileStandings />
             </View>
           </View>
           <View
@@ -49,15 +64,58 @@ export default function standing() {
               marginBottom: 10,
               justifyContent: "center",
               alignItems: "center",
+              gap:10
             }}
           >
-            <ProfileStandings />
-            <ProfileStandings />
-            <ProfileStandings />
-            <ProfileStandings />
-            <ProfileStandings />
-            <ProfileStandings />
-            <ProfileStandings />
+            <View style={styles.standingView}>
+              <Image
+                source={require("../assets/images/4th.png")}
+                style={styles.standingImage}
+              />
+              <ProfileStandings />
+            </View>
+            <View style={styles.standingView}>
+              <Image
+                source={require("../assets/images/4th.png")}
+                style={styles.standingImage}
+              />
+              <ProfileStandings />
+            </View>
+            <View style={styles.standingView}>
+              <Image
+                source={require("../assets/images/4th.png")}
+                style={styles.standingImage}
+              />
+              <ProfileStandings />
+            </View>
+            <View style={styles.standingView}>
+              <Image
+                source={require("../assets/images/4th.png")}
+                style={styles.standingImage}
+              />
+              <ProfileStandings />
+            </View>
+            <View style={styles.standingView}>
+              <Image
+                source={require("../assets/images/4th.png")}
+                style={styles.standingImage}
+              />
+              <ProfileStandings />
+            </View>
+            <View style={styles.standingView}>
+              <Image
+                source={require("../assets/images/4th.png")}
+                style={styles.standingImage}
+              />
+              <ProfileStandings />
+            </View>
+            <View style={styles.standingView}>
+              <Image
+                source={require("../assets/images/4th.png")}
+                style={styles.standingImage}
+              />
+              <ProfileStandings />
+            </View>
           </View>
         </View>
       </KeyboardAwareScrollView>
