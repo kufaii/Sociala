@@ -14,10 +14,18 @@ import {
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import styles from "@/style";
 import { useState } from "react";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 
 export default function Register() {
   const navigation = useNavigation();
+  const [personalDetail, setPersonalDetail] = useState({
+    name: "",
+    email: "",
+    username: "",
+    telephoneNumber: "",
+    password: "",
+    preference: "",
+  });
 
   const registerHandler = () => {
     // insertOne{{user}}
@@ -25,6 +33,10 @@ export default function Register() {
 
   const pressButton = () => {
     // console.log("Ketekan juga");
+    router.push({
+      pathname: "survey",
+      params: { ...personalDetail },
+    });
   };
 
   return (
@@ -61,22 +73,43 @@ export default function Register() {
             <TextInput
               style={[styles.input, { width: "100%" }]}
               placeholder="Name"
+              value={personalDetail.name}
+              onChangeText={(el) =>
+                setPersonalDetail({ ...personalDetail, name: el })
+              }
             />
             <TextInput
               style={[styles.input, { width: "100%" }]}
               placeholder="Email"
+              value={personalDetail.email}
+              onChangeText={(el) =>
+                setPersonalDetail({ ...personalDetail, email: el })
+              }
             />
             <TextInput
               style={[styles.input, { width: "100%" }]}
               placeholder="Phone number"
+              value={personalDetail.telephoneNumber}
+              onChangeText={(el) =>
+                setPersonalDetail({ ...personalDetail, telephoneNumber: el })
+              }
             />
             <TextInput
               style={[styles.input, { width: "100%" }]}
               placeholder="Username"
+              value={personalDetail.username}
+              onChangeText={(el) =>
+                setPersonalDetail({ ...personalDetail, username: el })
+              }
             />
             <TextInput
               style={[styles.input, { width: "100%", marginBottom: 20 }]}
               placeholder="Password"
+              value={personalDetail.password}
+              onChangeText={(el) =>
+                setPersonalDetail({ ...personalDetail, password: el })
+              }
+              secureTextEntry={true}
             />
 
             <Pressable onPress={pressButton}>
@@ -100,11 +133,11 @@ export default function Register() {
           <View style={{ flex: 1, alignItems: "center" }}>
             <Text style={{ marginTop: 5, marginBottom: 5 }}>
               You have already have account?
-              <Link
-                href={"/login"}
-                style={{ color: "blue", fontSize: 16 }}
-              >
+              <Link href={"/login"} style={{ color: "blue", fontSize: 16 }}>
                 Login
+              </Link>
+              <Link href={"/survey"} style={{ color: "blue", fontSize: 16 }}>
+                KE SURVEY GAN
               </Link>
             </Text>
           </View>
