@@ -11,16 +11,9 @@ import {
 import styles from "@/style";
 import { useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Link } from "expo-router";
-import axios from "@/instance"; //sesuaikan link via ngrok
-import { AuthProperty } from "@/AuthProvider";
-
-interface Respons {
-  data: { access_token: string }
-}
 
 export default function App() {
-  const { handleLogin } = AuthProperty()
+  const navigation = useNavigation();
 
   const [user, setUser] = useState({
     username: "",
@@ -29,19 +22,10 @@ export default function App() {
 
   console.log(user, `<<<<<<<<<<`);
 
-  const loginAction = async () => {
-    try {// const { data }: Respons = await axios({
-      //   method: "POST",
-      //   url: "/login",
-      //   data: user,
-      // })
-      console.log("masuk nihh")
-      const { data }: Respons = await axios({
-        url: "/login",
-      })
+  const loginHandler = () => {
+    // findOne{{user}}
+  };
 
-<<<<<<< HEAD:my-app/app/login.tsx
-=======
   const moveToStandings = () => {
     navigation.navigate("standing" as never);
   };
@@ -49,14 +33,9 @@ export default function App() {
   const moveToRegister = () => {
     navigation.navigate("register" as never);
   };
->>>>>>> 17f243c (Standing Rank):my-app/app/index.tsx
 
-      console.log(data, "< == login")
-
-      handleLogin(`Bearer ${data.access_token}`)
-    } catch (e) {
-      console.log(e, "<")
-    }
+  const pressButton = () => {
+    console.log("Ketekan");
   };
 
   return (
@@ -102,7 +81,7 @@ export default function App() {
               secureTextEntry={true}
             />
 
-            <Pressable onPress={loginAction}>
+            <Pressable onPress={pressButton}>
               <View
                 style={{
                   borderRadius: 30,
@@ -126,13 +105,14 @@ export default function App() {
 
           <View style={{ flex: 1, alignItems: "center" }}>
             <Text style={{ marginTop: 5, marginBottom: 5 }}>
-              You have not account?
-              <Link
-                href={"/register"}
+              You have not account? Register
+              <Text
+                onPress={moveToRegister}
                 style={{ color: "blue", fontSize: 16 }}
               >
-                Register
-              </Link>
+                {" "}
+                here{" "}
+              </Text>
             </Text>
           </View>
         </View>
