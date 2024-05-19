@@ -3,7 +3,6 @@ import { Stack } from "expo-router";
 
 export default function RootLayout() {
   return (
-
     <AuthProvider>
       <Stack>
         <Stack.Screen name="register" options={{ headerShown: false }} />
@@ -12,6 +11,5 @@ export default function RootLayout() {
         <Stack.Screen name="standing" options={{ headerShown: false }} />
       </Stack>
     </AuthProvider>
-
   );
 }
