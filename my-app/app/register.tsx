@@ -14,20 +14,17 @@ import {
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import styles from "@/style";
 import { useState } from "react";
+import { Link } from "expo-router";
 
 export default function Register() {
   const navigation = useNavigation();
-
-  const moveToIndex = () => {
-    navigation.navigate("index" as never);
-  };
 
   const registerHandler = () => {
     // insertOne{{user}}
   };
 
   const pressButton = () => {
-    console.log("Ketekan juga");
+    // console.log("Ketekan juga");
   };
 
   return (
@@ -102,14 +99,13 @@ export default function Register() {
 
           <View style={{ flex: 1, alignItems: "center" }}>
             <Text style={{ marginTop: 5, marginBottom: 5 }}>
-              You have already had account? Login
-              <Text
-                onPress={moveToIndex}
+              You have already have account?
+              <Link
+                href={"/login"}
                 style={{ color: "blue", fontSize: 16 }}
               >
-                {" "}
-                here{" "}
-              </Text>
+                Login
+              </Link>
             </Text>
           </View>
         </View>

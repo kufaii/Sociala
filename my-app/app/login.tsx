@@ -10,9 +10,16 @@ import {
 import styles from "@/style";
 import { useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Link } from "expo-router";
+import axios from "@/instance"; //sesuaikan link via ngrok
+import { AuthProperty } from "@/AuthProvider";
+
+interface Respons {
+  data: { access_token: string }
+}
 
 export default function App() {
-  const navigation = useNavigation();
+  const { handleLogin } = AuthProperty()
 
   const [user, setUser] = useState({
     username: "",
@@ -21,16 +28,24 @@ export default function App() {
 
   console.log(user, `<<<<<<<<<<`);
 
-  const loginHandler = () => {
-    // findOne{{user}}
-  };
+  const loginAction = async () => {
+    try {// const { data }: Respons = await axios({
+      //   method: "POST",
+      //   url: "/login",
+      //   data: user,
+      // })
+      console.log("masuk nihh")
+      const { data }: Respons = await axios({
+        url: "/login",
+      })
 
-  const moveToRegister = () => {
-    navigation.navigate("register" as never);
-  };
 
-  const pressButton = () => {
-    console.log("Ketekan");
+      console.log(data, "< == login")
+
+      handleLogin(`Bearer ${data.access_token}`)
+    } catch (e) {
+      console.log(e, "<")
+    }
   };
 
   return (
@@ -76,7 +91,7 @@ export default function App() {
               secureTextEntry={true}
             />
 
-            <Pressable onPress={pressButton}>
+            <Pressable onPress={loginAction}>
               <View
                 style={{
                   borderRadius: 30,
@@ -96,14 +111,13 @@ export default function App() {
 
           <View style={{ flex: 1, alignItems: "center" }}>
             <Text style={{ marginTop: 5, marginBottom: 5 }}>
-              You have not account? Register
-              <Text
-                onPress={moveToRegister}
+              You have not account?
+              <Link
+                href={"/register"}
                 style={{ color: "blue", fontSize: 16 }}
               >
-                {" "}
-                here{" "}
-              </Text>
+                Register
+              </Link>
             </Text>
           </View>
         </View>
