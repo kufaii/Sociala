@@ -6,6 +6,7 @@ import {
   TextInput,
   Image,
   Pressable,
+  Button,
 } from "react-native";
 import styles from "@/style";
 import { useState } from "react";
@@ -23,6 +24,10 @@ export default function App() {
 
   const loginHandler = () => {
     // findOne{{user}}
+  };
+
+  const moveToStandings = () => {
+    navigation.navigate("standing" as never);
   };
 
   const moveToRegister = () => {
@@ -93,6 +98,10 @@ export default function App() {
               </View>
             </Pressable>
           </View>
+
+          <Pressable onPress={moveToStandings}>
+            <Text>Standings</Text>
+          </Pressable>
 
           <View style={{ flex: 1, alignItems: "center" }}>
             <Text style={{ marginTop: 5, marginBottom: 5 }}>
