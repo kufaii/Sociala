@@ -40,16 +40,6 @@ export default function App() {
         url: "/login",
       })
 
-<<<<<<< HEAD:my-app/app/login.tsx
-=======
-  const moveToStandings = () => {
-    navigation.navigate("standing" as never);
-  };
-
-  const moveToRegister = () => {
-    navigation.navigate("register" as never);
-  };
->>>>>>> 17f243c (Standing Rank):my-app/app/index.tsx
 
       console.log(data, "< == login")
 
@@ -120,9 +110,9 @@ export default function App() {
             </Pressable>
           </View>
 
-          <Pressable onPress={moveToStandings}>
+          {/* <Pressable onPress={moveToStandings}>
             <Text>Standings</Text>
-          </Pressable>
+          </Pressable> */}
 
           <View style={{ flex: 1, alignItems: "center" }}>
             <Text style={{ marginTop: 5, marginBottom: 5 }}>
