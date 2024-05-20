@@ -27,11 +27,31 @@ interface userData {
   username: string;
   category: string;
   description: string | null;
-  onGoingMission: [];
   phoneNumber: string;
   photo: string;
   point: number;
   thumbnail: string | null;
+  onGoingMissions: mission[];
+}
+interface Missions {
+  _id: string;
+  category: string;
+  city: string;
+  description: string;
+  location: {};
+  name: string;
+  point: number;
+  pointMin: number;
+  thumbnail: string;
+  type: string;
+}
+interface mission {
+  Details: Missions[];
+  _id: string;
+  missionId: string;
+  status: string;
+  userId: string;
+  vote: number;
 }
 
 const Separator = () => <View style={styles.separator} />;
@@ -49,11 +69,13 @@ export default function HomeScreen() {
           authorization: access_token,
         },
       });
+
       setUserData(res.data);
     } catch (error) {
       console.log(error);
     }
   };
+
   useEffect(() => {
     dataUser();
   }, []);
@@ -76,23 +98,27 @@ export default function HomeScreen() {
           <View style={styles.missionCard}>
             <Image
               source={{
-                uri: "https://akcdn.detik.net.id/visual/2020/10/31/ebel_169.jpeg?w=900&q=90",
+                uri: "https://i.pinimg.com/564x/b2/ce/77/b2ce77463fa02f88282b5b59d34db30f.jpg",
               }}
               style={styles.missionImage}
             />
             <View style={styles.missionInfo}>
               <View style={styles.locationContainer}>
-                <Text style={styles.locationText}>{DATA[0].location}</Text>
+                <Text style={styles.locationText}>
+                  {userData?.onGoingMissions[0]?.Details[0]?.city}
+                </Text>
               </View>
-              <Text style={styles.missionName}>Hunter cobra</Text>
+              <Text style={styles.missionName}>
+                {userData?.onGoingMissions[0]?.Details[0]?.name}
+              </Text>
               <View style={styles.poinContainer}>
-                <Text style={styles.poinText}>+{DATA[0].poin}</Text>
+                <Text style={styles.poinText}>
+                  +{userData?.onGoingMissions[0]?.Details[0]?.point}
+                </Text>
               </View>
             </View>
             <Text style={styles.missionDescription}>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s.
+              {userData?.onGoingMissions[0]?.Details[0]?.description}
             </Text>
           </View>
         </View>
