@@ -29,19 +29,21 @@ export default function App() {
 
   const loginAction = async () => {
     try {
+      // const { data }: Respons = await axios({
+      //   method: "POST",
+      //   url: "/login",
+      //   data: user,
+      // })
       const { data }: Respons = await axios({
-        method: "POST",
         url: "/user/login",
+        method: "POST",
         data: user,
-      })
-
-      console.log(data, "< ====")
-
-      handleLogin(`Bearer ${data.access_token}`)
+      });
+      handleLogin(`Bearer ${data.access_token}`);
     } catch (e) {
-      alert(e.response.data.message)
-      console.log(e, "< === error")
-      console.log(e.response.data.message, "<===")
+      alert(e.response.data.message);
+      console.log(e, "< === error");
+      console.log(e.response.data.message, "<===");
     }
   };
 
