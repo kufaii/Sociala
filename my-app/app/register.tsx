@@ -22,14 +22,10 @@ export default function Register() {
     name: "",
     email: "",
     username: "",
-    telephoneNumber: "",
+    phoneNumber: "",
     password: "",
-    preference: "",
+    category: "",
   });
-
-  const registerHandler = () => {
-    // insertOne{{user}}
-  };
 
   const pressButton = () => {
     // console.log("Ketekan juga");
@@ -89,9 +85,9 @@ export default function Register() {
             <TextInput
               style={[styles.input, { width: "100%" }]}
               placeholder="Phone number"
-              value={personalDetail.telephoneNumber}
+              value={personalDetail.phoneNumber}
               onChangeText={(el) =>
-                setPersonalDetail({ ...personalDetail, telephoneNumber: el })
+                setPersonalDetail({ ...personalDetail, phoneNumber: el })
               }
             />
             <TextInput
@@ -135,9 +131,6 @@ export default function Register() {
               You have already have account?
               <Link href={"/login"} style={{ color: "blue", fontSize: 16 }}>
                 Login
-              </Link>
-              <Link href={"/survey"} style={{ color: "blue", fontSize: 16 }}>
-                KE SURVEY GAN
               </Link>
             </Text>
           </View>
