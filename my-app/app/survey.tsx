@@ -1,55 +1,3 @@
-// import { Text, View, SafeAreaView } from "react-native";
-// import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-// import styles from "@/style";
-// import { useLocalSearchParams } from "expo-router";
-
-// const questions = [
-//   {
-//     question: "",
-//     answer: ["", ""],
-//   },
-// ];
-
-// export default function Register() {
-//   const personalDetail = useLocalSearchParams();
-//   //   save the answer here
-
-//   return (
-//     <SafeAreaView style={styles.container}>
-//       <KeyboardAwareScrollView contentContainerStyle={styles.scrollContent}>
-//         <View
-//           style={{
-//             flex: 1,
-//             padding: 10,
-//             borderRadius: 25,
-//             borderWidth: 3,
-//             borderColor: "gray",
-//           }}
-//         >
-//           <View style={{ flex: 1, alignItems: "center" }}>
-//             <Text style={{ marginTop: 20, marginBottom: 5 }}>
-//               SURVEY DIKIT GAN
-//             </Text>
-//           </View>
-//           <View style={{ flex: 2, alignItems: "center" }}>
-//             <Text style={{ marginTop: 20, marginBottom: 5 }}>
-//               Apakah anda menikmati petualangan kecil ketika menjelajahi daerah
-//               sekitar anda?
-//             </Text>
-//             {/* in here, i want it to have 4 option:
-//             1. i dont like to explore new things
-//             2. not so much
-//             3. i do enjoy it a bit
-//             4. im enjoying it very much, i love it*/}
-//           </View>
-//         </View>
-//       </KeyboardAwareScrollView>
-//     </SafeAreaView>
-//   );
-// }
-
-// kodingan chatgpt :skull
-// PR: REDO PAKAI KODINGAN DEWEK, LOGIKANYA UDAH MASUK AING GAN
 import React, { useState } from "react";
 import {
   Text,
@@ -69,46 +17,73 @@ type Question = {
 
 const questions: Question[] = [
   {
+    question: "Do you enjoy trying new and adventurous activities?",
+    options: [
+      "Nah, i hate it",
+      "Not so much",
+      "I do enjoy it a bit",
+      "Ofcourse i enjoy it. I live for it",
+    ],
+  },
+  {
+    question: "Do you seek out opportunities to explore new place?",
+    options: [
+      "I wouldn't, even if i could",
+      "Only if it necessary",
+      "Sometimes i do it in my freetime",
+      "I crave it. I long for it.",
+    ],
+  },
+  {
     question:
-      "Apakah anda menikmati petualangan kecil ketika menjelajahi daerah sekitar anda?",
+      "Is it important for you to contribute to the well-being of others?",
     options: [
-      "I don't like to explore new things",
-      "Not so much",
-      "I do enjoy it a bit",
-      "I'm enjoying it very much, I love it",
+      "I live my life for myself",
+      "If society told me to, maybe",
+      "Sometimes, when i can",
+      "Of course it is.",
     ],
   },
   {
-    question: "2 asdasdasdasddas",
+    question: "Do you actively participate in volunteer or community service?",
     options: [
-      "I don't like to explore new things",
-      "Not so much",
-      "I do enjoy it a bit",
-      "I'm enjoying it very much, I love it",
+      "Never, it's not for me",
+      "Only if I'm required to",
+      "Sometimes, when I find the time",
+      "Frequently, I love helping out",
     ],
   },
   {
-    question: "3 asdasdasdaag",
+    question: "Are you motivated to continuously learn and grow personally?",
     options: [
-      "I don't like to explore new things",
-      "Not so much",
-      "I do enjoy it a bit",
-      "I'm enjoying it very much, I love it",
+      "Not at all, I'm content",
+      "Sometimes, when I'm in the mood",
+      "I do learn something, just when im free",
+      "Absolutely, it's a constant drive",
     ],
   },
   {
-    question: "4 asdoimasfimnfas",
+    question: "Do you set goals for self-improvement?",
     options: [
-      "I don't like to explore new things",
-      "Not so much",
-      "I do enjoy it a bit",
-      "I'm enjoying it very much, I love it",
+      "Never, I'm fine as I am",
+      "Only if it's necessary",
+      "Sometimes, only when it counts.",
+      "Always.",
     ],
   },
-  // Add other questions here...
+  {
+    question:
+      "How often do you engage in activities aimed at enhancing your skills or knowledge?",
+    options: [
+      "Never, it's not my thing",
+      "Only if I have to",
+      "Sometimes, in my free time",
+      "Regularly, it's a habit",
+    ],
+  },
 ];
 
-const Register: React.FC = () => {
+export default function Survey() {
   const personalDetail = useLocalSearchParams();
   const [answers, setAnswers] = useState<(number | null)[]>(
     Array(questions.length).fill(null)
@@ -141,45 +116,72 @@ const Register: React.FC = () => {
     <SafeAreaView style={styles.container}>
       <KeyboardAwareScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.questionContainer}>
-          <Text style={styles.questionText}>
-            {questions[currentQuestionIndex].question}
-          </Text>
-          {questions[currentQuestionIndex].options.map(
-            (option, optionIndex) => (
-              <TouchableOpacity
-                key={optionIndex}
-                style={[
-                  styles.optionButton,
-                  answers[currentQuestionIndex] === optionIndex &&
-                    styles.selectedOption,
-                ]}
-                onPress={() => handleOptionSelect(optionIndex)}
-              >
-                <Text style={styles.optionText}>{option}</Text>
+          <View
+            style={{
+              marginVertical: 140,
+              marginHorizontal: 15,
+              width: "90%",
+              flex: 1,
+            }}
+          >
+            <Text style={{ fontSize: 14, textAlign: "center", color: "grey" }}>
+              {currentQuestionIndex + 1}/{questions.length}
+            </Text>
+            <Text style={styles.questionText}>
+              {questions[currentQuestionIndex].question}
+            </Text>
+            <View style={styles.answerContainer}>
+              {questions[currentQuestionIndex].options.map(
+                (option, optionIndex) => (
+                  <TouchableOpacity
+                    key={optionIndex}
+                    style={[
+                      styles.optionButton,
+                      answers[currentQuestionIndex] === optionIndex &&
+                        styles.selectedOption,
+                    ]}
+                    onPress={() => handleOptionSelect(optionIndex)}
+                  >
+                    <Text style={styles.optionText}>{option}</Text>
+                  </TouchableOpacity>
+                )
+              )}
+            </View>
+          </View>
+          <View style={styles.navigationContainer}>
+            <TouchableOpacity onPress={() => handleNext()}>
+              <Text>
+                {currentQuestionIndex < questions.length - 1
+                  ? "Next"
+                  : "Submit"}
+              </Text>
+            </TouchableOpacity>
+            {currentQuestionIndex > 0 && (
+              <TouchableOpacity onPress={() => handleBack()}>
+                <Text>Back</Text>
               </TouchableOpacity>
-            )
-          )}
-        </View>
-        <View style={styles.navigationContainer}>
-          {currentQuestionIndex > 0 && (
-            <Button title="Back" onPress={handleBack} />
-          )}
-          <Button
-            title={
-              currentQuestionIndex < questions.length - 1 ? "Next" : "Submit"
-            }
-            onPress={handleNext}
-          />
+            )}
+            {/* <Button
+              title={
+                currentQuestionIndex < questions.length - 1 ? "Next" : "Submit"
+              }
+              onPress={handleNext}
+            />
+            {currentQuestionIndex > 0 && (
+              <Button title="Back" onPress={handleBack} />
+            )} */}
+          </View>
         </View>
       </KeyboardAwareScrollView>
     </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+    paddingTop: 30,
   },
   scrollContent: {
     flexGrow: 1,
@@ -188,16 +190,18 @@ const styles = StyleSheet.create({
   questionContainer: {
     flex: 1,
     padding: 10,
-    borderRadius: 25,
-    borderWidth: 3,
-    borderColor: "gray",
     alignItems: "center",
   },
   questionText: {
     marginTop: 20,
     marginBottom: 20,
-    fontSize: 18,
+    fontSize: 22,
     textAlign: "center",
+    textAlignVertical: "center",
+    height: "35%",
+  },
+  answerContainer: {
+    height: "65%",
   },
   optionButton: {
     marginTop: 10,
@@ -211,13 +215,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   selectedOption: {
-    backgroundColor: "#c0e8e0",
+    backgroundColor: "#eecc6a",
   },
   navigationContainer: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     justifyContent: "space-between",
-    padding: 20,
+    padding: 40,
+    width: "100%",
   },
 });
-
-export default Register;
