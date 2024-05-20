@@ -1,31 +1,68 @@
 import { AuthProperty } from '@/AuthProvider';
-import React from 'react';
+import axios from '@/instance';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Image, View, Text, SafeAreaView, Pressable, Dimensions, FlatList } from 'react-native';
-import SelectDropdown from 'react-native-select-dropdown'
+import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import IconM from 'react-native-vector-icons/MaterialCommunityIcons'
+import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const { width } = Dimensions.get('window');
 
-const emojisWithIcons = [
-  { title: 'Adventure', icon: 'space-shuttle' },
-  { title: 'Social', icon: 'users' },
-  { title: 'Individu', icon: 'user' },
-];
-
 export default function TabTwoScreen() {
-  const { handleLogout } = AuthProperty()
+  const { handleLogout } = AuthProperty();
+  const { access_token } = AuthProperty();
+  const [user, setUser] = useState({});
+  const [profileImage, setProfileImage] = useState('https://via.placeholder.com/100');
+
+  const emojisWithIcons = [
+    { title: 'Adventure', icon: 'space-shuttle' },
+    { title: 'Social', icon: 'users' },
+    { title: 'Individu', icon: 'user' },
+  ];
+
   const renderItem = ({ item }) => (
     <View style={styles.historyItem}>
       <Text>{item.title}</Text>
     </View>
   );
 
+  const fetchUser = async () => {
+    try {
+      console.log(access_token, "< === Access token");
+      const { data } = await axios({
+        url: "/user/my-profile",
+        headers: {
+          Authorization: access_token
+        }
+      });
+
+      console.log(data, "<_ data");
+      setUser(data);
+      validateProfileImage(data.photo);
+    } catch (error) {
+      console.log(error, "Error =< >=");
+    }
+  };
+
+  const validateProfileImage = (url) => {
+    Image.prefetch(url)
+      .then(() => {
+        setProfileImage(url);
+      })
+      .catch(() => {
+        setProfileImage('https://via.placeholder.com/100');
+      });
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "blue" }}>
       <View style={styles.headerImageContainer}>
         <Image
-          source={{ uri: 'https://akcdn.detik.net.id/visual/2020/10/31/ebel_169.jpeg?w=900&q=90' }}
+          source={{ uri: user.thumbnail || 'https://akcdn.detik.net.id/visual/2020/10/31/ebel_169.jpeg?w=900&q=90' }}
           style={styles.headerImage}
         />
         <Pressable style={styles.logoutButton} onPress={() => handleLogout()}>
@@ -35,7 +72,7 @@ export default function TabTwoScreen() {
       <View style={styles.container}>
         <View style={styles.profileContainer}>
           <Image
-            source={{ uri: 'https://via.placeholder.com/100' }}
+            source={{ uri: profileImage }}
             style={styles.profileImage}
           />
         </View>
@@ -45,10 +82,10 @@ export default function TabTwoScreen() {
           </Pressable>
         </View>
         <View style={styles.profileInfo}>
-          <Text style={styles.profileName}>EBEL SANG KOBRA</Text>
-          <Text style={styles.profileUsername}>@EbelSnake23</Text>
+          <Text style={styles.profileName}>{user.name}</Text>
+          <Text style={styles.profileUsername}>@{user.username}</Text>
           <Text style={styles.profileBio}>
-            Bio singkat pengguna. Ini adalah tempat di mana pengguna bisa menulis sesuatu tentang diri mereka.
+            {user.description}
           </Text>
           <View style={styles.progressBarContainer}>
             <Image

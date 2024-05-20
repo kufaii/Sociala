@@ -27,25 +27,21 @@ export default function App() {
     password: "",
   });
 
-  console.log(user, `<<<<<<<<<<`);
-
   const loginAction = async () => {
     try {
-      // const { data }: Respons = await axios({
-      //   method: "POST",
-      //   url: "/login",
-      //   data: user,
-      // })
-      console.log("masuk nihh");
       const { data }: Respons = await axios({
-        url: "/login",
-      });
+        method: "POST",
+        url: "/user/login",
+        data: user,
+      })
 
-      console.log(data, "< == login");
+      console.log(data, "< ====")
 
-      handleLogin(`Bearer ${data.access_token}`);
+      handleLogin(`Bearer ${data.access_token}`)
     } catch (e) {
-      console.log(e, "<");
+      alert(e.response.data.message)
+      console.log(e, "< === error")
+      console.log(e.response.data.message, "<===")
     }
   };
 
