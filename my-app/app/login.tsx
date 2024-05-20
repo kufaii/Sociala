@@ -16,11 +16,11 @@ import axios from "@/instance"; //sesuaikan link via ngrok
 import { AuthProperty } from "@/AuthProvider";
 
 interface Respons {
-  data: { access_token: string }
+  data: { access_token: string };
 }
 
 export default function App() {
-  const { handleLogin } = AuthProperty()
+  const { handleLogin } = AuthProperty();
 
   const [user, setUser] = useState({
     username: "",
@@ -30,32 +30,22 @@ export default function App() {
   console.log(user, `<<<<<<<<<<`);
 
   const loginAction = async () => {
-    try {// const { data }: Respons = await axios({
+    try {
+      // const { data }: Respons = await axios({
       //   method: "POST",
       //   url: "/login",
       //   data: user,
       // })
-      console.log("masuk nihh")
+      console.log("masuk nihh");
       const { data }: Respons = await axios({
         url: "/login",
-      })
+      });
 
-<<<<<<< HEAD:my-app/app/login.tsx
-=======
-  const moveToStandings = () => {
-    navigation.navigate("standing" as never);
-  };
+      console.log(data, "< == login");
 
-  const moveToRegister = () => {
-    navigation.navigate("register" as never);
-  };
->>>>>>> 17f243c (Standing Rank):my-app/app/index.tsx
-
-      console.log(data, "< == login")
-
-      handleLogin(`Bearer ${data.access_token}`)
+      handleLogin(`Bearer ${data.access_token}`);
     } catch (e) {
-      console.log(e, "<")
+      console.log(e, "<");
     }
   };
 
@@ -120,17 +110,14 @@ export default function App() {
             </Pressable>
           </View>
 
-          <Pressable onPress={moveToStandings}>
+          {/* <Pressable onPress={moveToStandings}>
             <Text>Standings</Text>
-          </Pressable>
+          </Pressable> */}
 
           <View style={{ flex: 1, alignItems: "center" }}>
             <Text style={{ marginTop: 5, marginBottom: 5 }}>
               You have not account?
-              <Link
-                href={"/register"}
-                style={{ color: "blue", fontSize: 16 }}
-              >
+              <Link href={"/register"} style={{ color: "blue", fontSize: 16 }}>
                 Register
               </Link>
             </Text>
