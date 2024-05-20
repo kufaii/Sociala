@@ -24,12 +24,8 @@ export default function Register() {
     username: "",
     telephoneNumber: "",
     password: "",
-    preference: "",
+    category: "",
   });
-
-  const registerHandler = () => {
-    // insertOne{{user}}
-  };
 
   const pressButton = () => {
     // console.log("Ketekan juga");
@@ -135,9 +131,6 @@ export default function Register() {
               You have already have account?
               <Link href={"/login"} style={{ color: "blue", fontSize: 16 }}>
                 Login
-              </Link>
-              <Link href={"/survey"} style={{ color: "blue", fontSize: 16 }}>
-                KE SURVEY GAN
               </Link>
             </Text>
           </View>

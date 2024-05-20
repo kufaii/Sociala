@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useLocalSearchParams } from "expo-router";
+import axios from "axios";
 
 type Question = {
   question: string;
@@ -96,13 +97,31 @@ export default function Survey() {
     setAnswers(newAnswers);
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       console.log("Answers submitted:", answers);
     } else {
-      // Submit or process the answers
-      console.log("Answers submitted:", answers);
+      try {
+        const preference = {
+          q1: answers[0],
+          q2: answers[1],
+          q3: answers[2],
+          q4: answers[3],
+          q5: answers[4],
+          q6: answers[5],
+          q7: answers[6],
+        };
+        const res = await axios({
+          method: "POST",
+          url: "http://52.74.175.183/predict",
+          data: preference,
+        });
+        console.log("ini res>>>>>>>", res);
+        console.log("ini personal detaul >>>>", personalDetail);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
