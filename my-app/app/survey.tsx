@@ -100,25 +100,35 @@ export default function Survey() {
   const handleNext = async () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
-      console.log("Answers submitted:", answers);
     } else {
       try {
+        const forPreference = answers.map((value) =>
+          value === null ? 1 : value + 1
+        );
         const preference = {
-          q1: answers[0],
-          q2: answers[1],
-          q3: answers[2],
-          q4: answers[3],
-          q5: answers[4],
-          q6: answers[5],
-          q7: answers[6],
+          q1: forPreference[0],
+          q2: forPreference[1],
+          q3: forPreference[2],
+          q4: forPreference[3],
+          q5: forPreference[4],
+          q6: forPreference[5],
+          q7: forPreference[6],
         };
         const res = await axios({
           method: "POST",
           url: "http://52.74.175.183/predict",
           data: preference,
         });
-        console.log("ini res>>>>>>>", res);
-        console.log("ini personal detaul >>>>", personalDetail);
+        personalDetail.category = res.data.prediction;
+        console.log(personalDetail);
+
+        const final = await axios({
+          method: "POST",
+          url: "http://localhost:3000/user/register",
+          data: personalDetail,
+        });
+
+        console.log("done gan");
       } catch (error) {
         console.log(error);
       }

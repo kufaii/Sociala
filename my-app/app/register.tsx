@@ -22,7 +22,7 @@ export default function Register() {
     name: "",
     email: "",
     username: "",
-    telephoneNumber: "",
+    phoneNumber: "",
     password: "",
     category: "",
   });
@@ -85,9 +85,9 @@ export default function Register() {
             <TextInput
               style={[styles.input, { width: "100%" }]}
               placeholder="Phone number"
-              value={personalDetail.telephoneNumber}
+              value={personalDetail.phoneNumber}
               onChangeText={(el) =>
-                setPersonalDetail({ ...personalDetail, telephoneNumber: el })
+                setPersonalDetail({ ...personalDetail, phoneNumber: el })
               }
             />
             <TextInput
