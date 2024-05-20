@@ -22,22 +22,46 @@ export default function standing() {
               // backgroundColor: "gray",
               borderRadius: 25,
               borderColor: "#eecc6a",
-              borderWidth: 3,
+              borderWidth: 2,
               marginBottom: 10,
               justifyContent: "center",
               alignItems: "center",
+              // marginRight:50
+              // alignContent:"center"
+              // alignSelf:"center"
             }}
           >
-            <View style={{ justifyContent: "space-between" }}>
-              <View>
-                <Text> Leader Board </Text>
-              </View>
-              <View>
-                <ProfileStandings />
-                <ProfileStandings />
-                <ProfileStandings />
-              </View>
+            <Text style={{ fontSize: 16, fontWeight: "700" }}>
+              -- Leader Board --
+            </Text>
+
+            {/* ----------- Ini yang top 3 ----------- */}
+
+            <View style={styles.standingView}>
+              <Image
+                source={require("../assets/images/1st.png")}
+                style={styles.stadingImage}
+              />
+              <ProfileStandings />
             </View>
+
+            <View style={styles.standingView}>
+              <Image
+                source={require("../assets/images/2nd.png")}
+                style={styles.stadingImage}
+              />
+              <ProfileStandings />
+            </View>
+
+            <View style={styles.standingView}>
+              <Image
+                source={require("../assets/images/3rd.png")}
+                style={styles.stadingImage}
+              />
+              <ProfileStandings />
+            </View>
+
+            {/* ----------- Ini yang top 3 -----------*/}
           </View>
           <View
             style={{
@@ -45,19 +69,63 @@ export default function standing() {
               // backgroundColor: "gray",
               borderRadius: 25,
               borderColor: "#eecc6a",
-              borderWidth: 3,
+              borderWidth: 2,
               marginBottom: 10,
-              justifyContent: "center",
+              justifyContent: "space-evenly",
               alignItems: "center",
             }}
           >
-            <ProfileStandings />
-            <ProfileStandings />
-            <ProfileStandings />
-            <ProfileStandings />
-            <ProfileStandings />
-            <ProfileStandings />
-            <ProfileStandings />
+            {/* ----------- ini yang top 7 ----------- */}
+            <View style={styles.standingView}>
+              <Image
+                source={require("../assets/images/4th.png")}
+                style={styles.stadingImage}
+              />
+              <ProfileStandings />
+            </View>
+            <View style={styles.standingView}>
+              <Image
+                source={require("../assets/images/4th.png")}
+                style={styles.stadingImage}
+              />
+              <ProfileStandings />
+            </View>
+            <View style={styles.standingView}>
+              <Image
+                source={require("../assets/images/4th.png")}
+                style={styles.stadingImage}
+              />
+              <ProfileStandings />
+            </View>
+            <View style={styles.standingView}>
+              <Image
+                source={require("../assets/images/4th.png")}
+                style={styles.stadingImage}
+              />
+              <ProfileStandings />
+            </View>
+            <View style={styles.standingView}>
+              <Image
+                source={require("../assets/images/4th.png")}
+                style={styles.stadingImage}
+              />
+              <ProfileStandings />
+            </View>
+            <View style={styles.standingView}>
+              <Image
+                source={require("../assets/images/4th.png")}
+                style={styles.stadingImage}
+              />
+              <ProfileStandings />
+            </View>
+            <View style={styles.standingView}>
+              <Image
+                source={require("../assets/images/4th.png")}
+                style={styles.stadingImage}
+              />
+              <ProfileStandings />
+            </View>
+            {/* ----------- ini yang top 7 ----------- */}
           </View>
         </View>
       </KeyboardAwareScrollView>
