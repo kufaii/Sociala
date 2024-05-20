@@ -8,8 +8,9 @@ import {
   Button,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import axios from "axios";
+import instance from "@/instance";
 
 type Question = {
   question: string;
@@ -122,13 +123,15 @@ export default function Survey() {
         personalDetail.category = res.data.prediction;
         console.log(personalDetail);
 
-        const final = await axios({
+        const final = await instance({
           method: "POST",
-          url: "http://localhost:3000/user/register",
+          url: "/user/register",
           data: personalDetail,
         });
 
-        console.log("done gan");
+        router.push({
+          pathname: "login",
+        });
       } catch (error) {
         console.log(error);
       }
