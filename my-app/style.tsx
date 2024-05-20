@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     backgroundColor: "#ecf0f1",
-    padding: 8,
+    paddingTop: 28,
     // borderRadius: 10,
     // backgroundColor: "#eecc6a",
   },
