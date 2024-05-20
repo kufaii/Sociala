@@ -22,15 +22,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingBottom: 1,
   },
+  stadingImage: {
+    width: 30,
+    height: 30,
+    marginLeft: 5,
+  },
   standingView: {
+    flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    marginLeft: 10,
-  },
-  standingImage: {
-    width: 40,
-    height: 40,
-    alignItems: "center",
+    justifyContent: "space-around",
   },
 });
 

@@ -7,11 +7,10 @@ export default function ProfileStandings() {
     <View
       style={{
         flex: 1,
-        justifyContent: "center",
+        justifyContent: "space-evenly",
         flexDirection: "row",
         alignItems: "center",
-        gap: 10,
-        marginRight: 80,
+        gap: 5,
       }}
     >
       <Image
@@ -23,15 +22,13 @@ export default function ProfileStandings() {
           height: 40,
           borderRadius: 20,
           borderWidth: 2,
+          // borderColor: "red",
           // position: "relative",
           padding: 25,
         }}
       />
-
-      <View style={{ padding: 5, marginLeft: 10 }}>
-        <Text>saya nomor 1</Text>
-        <Text>Level saya </Text>
-      </View>
+      <Text>saya si nomor 1</Text>
+      <Text>Level 99 </Text>
     </View>
   );
 }

@@ -22,37 +22,46 @@ export default function standing() {
               // backgroundColor: "gray",
               borderRadius: 25,
               borderColor: "#eecc6a",
-              borderWidth: 3,
+              borderWidth: 2,
               marginBottom: 10,
               justifyContent: "space-evenly",
               alignItems: "center",
-              gap: 5,
+              // marginRight:50
+              // alignContent:"center"
+              // alignSelf:"center"
             }}
           >
-            <Text style={{ fontSize: 18, fontWeight: "800" }}>
+            <Text style={{ fontSize: 16, fontWeight: "700" }}>
               -- Leader Board --
             </Text>
+
+            {/* ----------- Ini yang top 3 ----------- */}
+
             <View style={styles.standingView}>
               <Image
                 source={require("../assets/images/1st.png")}
-                style={styles.standingImage}
+                style={styles.stadingImage}
               />
               <ProfileStandings />
             </View>
+
             <View style={styles.standingView}>
               <Image
                 source={require("../assets/images/2nd.png")}
-                style={styles.standingImage}
+                style={styles.stadingImage}
               />
               <ProfileStandings />
             </View>
+
             <View style={styles.standingView}>
               <Image
                 source={require("../assets/images/3rd.png")}
-                style={styles.standingImage}
+                style={styles.stadingImage}
               />
               <ProfileStandings />
             </View>
+
+            {/* ----------- Ini yang top 3 -----------*/}
           </View>
           <View
             style={{
@@ -60,62 +69,64 @@ export default function standing() {
               // backgroundColor: "gray",
               borderRadius: 25,
               borderColor: "#eecc6a",
-              borderWidth: 3,
+              borderWidth: 2,
               marginBottom: 10,
-              justifyContent: "center",
+              justifyContent: "space-evenly",
               alignItems: "center",
               gap:10
             }}
           >
+            {/* ----------- ini yang top 7 ----------- */}
             <View style={styles.standingView}>
               <Image
                 source={require("../assets/images/4th.png")}
-                style={styles.standingImage}
+                style={styles.stadingImage}
               />
               <ProfileStandings />
             </View>
             <View style={styles.standingView}>
               <Image
                 source={require("../assets/images/4th.png")}
-                style={styles.standingImage}
+                style={styles.stadingImage}
               />
               <ProfileStandings />
             </View>
             <View style={styles.standingView}>
               <Image
                 source={require("../assets/images/4th.png")}
-                style={styles.standingImage}
+                style={styles.stadingImage}
               />
               <ProfileStandings />
             </View>
             <View style={styles.standingView}>
               <Image
                 source={require("../assets/images/4th.png")}
-                style={styles.standingImage}
+                style={styles.stadingImage}
               />
               <ProfileStandings />
             </View>
             <View style={styles.standingView}>
               <Image
                 source={require("../assets/images/4th.png")}
-                style={styles.standingImage}
+                style={styles.stadingImage}
               />
               <ProfileStandings />
             </View>
             <View style={styles.standingView}>
               <Image
                 source={require("../assets/images/4th.png")}
-                style={styles.standingImage}
+                style={styles.stadingImage}
               />
               <ProfileStandings />
             </View>
             <View style={styles.standingView}>
               <Image
                 source={require("../assets/images/4th.png")}
-                style={styles.standingImage}
+                style={styles.stadingImage}
               />
               <ProfileStandings />
             </View>
+            {/* ----------- ini yang top 7 ----------- */}
           </View>
         </View>
       </KeyboardAwareScrollView>
