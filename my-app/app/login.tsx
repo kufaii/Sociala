@@ -30,16 +30,12 @@ export default function App() {
   const loginAction = async () => {
     try {
       // const { data }: Respons = await axios({
+      //   url: "/user/login",
       //   method: "POST",
-      //   url: "/login",
       //   data: user,
-      // })
-      const { data }: Respons = await axios({
-        url: "/user/login",
-        method: "POST",
-        data: user,
-      });
-      handleLogin(`Bearer ${data.access_token}`);
+      // });
+      // handleLogin(`Bearer ${data.access_token}`);
+      handleLogin(`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQ2MThkMTJiNWQ1MjBmZTg0MDNiNzgiLCJ1c2VybmFtZSI6InZhbmthNjYiLCJyb2xlIjoiVXNlciIsImlhdCI6MTcxNjI2MzIwNX0.qUoKGYhQp_unXf0i84CVDI3U7PHJNgpwd_Y-ShbUAzs`);
     } catch (e) {
       alert(e.response.data.message);
       console.log(e, "< === error");
