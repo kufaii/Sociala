@@ -4,6 +4,27 @@ import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import CustomMarker from '../../components/customMarker';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useLocalSearchParams } from 'expo-router';
+import axios from '@/instance';
+
+interface Location {
+    latitude: number;
+    longitude: number;
+}
+
+interface MissionDetail {
+    _id: string;
+    name: string;
+    description: string;
+    point: number;
+    location: Location;
+    thumbnail: string;
+    type: string;
+    city: string;
+    category: string;
+    pointMin: number;
+    participants: { userId: string; username: string }[];
+}
 
 const { width, height } = Dimensions.get("window");
 
@@ -17,24 +38,39 @@ const users = [
 const Separator = () => <View style={styles.separator} />;
 
 export default function Map() {
-    const initialLocation = { latitude: 37.78825, longitude: -122.4324 };
-    const [myLocation, setMyLocation] = useState(initialLocation);
-    const [pin, setPin] = useState({});
+    const { id } = useLocalSearchParams();
+
+    const initialLocation = { latitude: -2.5, longitude: 118.0 };
+    const [myLocation, setMyLocation] = useState<Location>(initialLocation);
+    const [pin, setPin] = useState<Location | null>(null);
+    const [missionDetail, setMissionDetail] = useState<MissionDetail>({});
     const [region, setRegion] = useState({
         latitude: initialLocation.latitude,
         longitude: initialLocation.longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitudeDelta: 23.0,
+        longitudeDelta: 46.0,
     });
 
-    const mapRef = useRef(null);
+    const mapRef = useRef<MapView>(null);
 
-    const local = { latitude: "37.78825", longitude: "-122.4324" };
+    const misionLocation = missionDetail.location;
 
-    useEffect(() => {
-        setPin(local);
-        _getLocation();
-    }, []);
+    const fetchDetail = async () => {
+        try {
+            const { data } = await axios.get(`/mission/${id}`);
+            console.log(data, "< === ini datanya bwng");
+
+            setMissionDetail(data);
+            if (data.location) {
+                setPin({
+                    latitude: parseFloat(data.location.latitude),
+                    longitude: parseFloat(data.location.longitude)
+                });
+            }
+        } catch (err) {
+            console.warn(err);
+        }
+    };
 
     const _getLocation = async () => {
         try {
@@ -52,10 +88,10 @@ export default function Map() {
     };
 
     const focusOnLocation = () => {
-        if (myLocation.latitude && myLocation.longitude) {
+        if (missionDetail.location?.latitude && missionDetail.location?.longitude) {
             const newRegion = {
-                latitude: parseFloat(myLocation.latitude),
-                longitude: parseFloat(myLocation.longitude),
+                latitude: parseFloat(missionDetail.location.latitude),
+                longitude: parseFloat(missionDetail.location.longitude),
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421
             };
@@ -65,8 +101,13 @@ export default function Map() {
         }
     };
 
+    useEffect(() => {
+        fetchDetail();
+        _getLocation();
+    }, []);
+
     const memoizedCustomMarker = useMemo(() => (
-        myLocation.latitude && myLocation.longitude && (
+        myLocation?.latitude && myLocation?.longitude && (
             <CustomMarker
                 coordinate={{
                     latitude: myLocation.latitude,
@@ -81,8 +122,8 @@ export default function Map() {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
-                <Text style={styles.header}>Mision X</Text>
-                <View style={styles.participantsContainer}>
+                <Text style={styles.header}>{missionDetail?.name}</Text>
+                {missionDetail?.participants?.length > 1 && (<View style={styles.participantsContainer}>
                     <Text style={styles.participantsTitle}>All Participants</Text>
                     <FlatList
                         data={users}
@@ -98,11 +139,11 @@ export default function Map() {
                         showsHorizontalScrollIndicator={false}
                         decelerationRate="fast"
                     />
-                </View>
+                </View>)}
                 <View style={styles.detailsContainer}>
                     <View>
                         <Text style={styles.descriptionTitle}>Description</Text>
-                        <Text style={styles.descriptionText}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, doloremque ipsum dolor sit amet consectetur adipisicing elit. Adipisci, doloremque?</Text>
+                        <Text style={styles.descriptionText}>{missionDetail.description}</Text>
                     </View>
                     <View>
                         <Text style={styles.title}>Location</Text>
@@ -112,9 +153,9 @@ export default function Map() {
                                 region={region}
                                 onRegionChangeComplete={setRegion}
                                 ref={mapRef}
-                                provider='google'
+                                provider={'google'}
                             >
-                                {myLocation.latitude && myLocation.longitude &&
+                                {/* {myLocation?.latitude && myLocation?.longitude &&
                                     <Marker
                                         coordinate={{
                                             latitude: myLocation.latitude,
@@ -123,18 +164,28 @@ export default function Map() {
                                         title='My current location'
                                         description='I am here'
                                     />
-                                }
+                                } */}
                                 {memoizedCustomMarker}
-                                {pin.latitude && pin.longitude &&
-                                    <Marker
+                                {missionDetail.location &&
+                                    (<Marker
                                         coordinate={{
-                                            latitude: parseFloat(pin.latitude),
-                                            longitude: parseFloat(pin.longitude)
+                                            latitude: parseFloat(misionLocation.latitude),
+                                            longitude: parseFloat(misionLocation.longtitude)
                                         }}
                                         title='Default location'
                                         description='I am here'
-                                    />
+                                    />)
                                 }
+                                {/* {pin?.latitude && pin?.longitude &&
+                                    (<Marker
+                                        coordinate={{
+                                            latitude: pin.latitude,
+                                            longitude: pin.longitude
+                                        }}
+                                        title='Default location'
+                                        description='I am here'
+                                    />)
+                                } */}
                             </MapView>
                         </View>
                         <View style={styles.buttonContainer}>
