@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { useEffect, useState } from "react";
 import axios from "@/instance";
+
 const { height, width } = Dimensions.get("window");
 
 const DATA = [
@@ -20,7 +21,35 @@ const DATA = [
   { name: "Misi 4", location: "SURABAYA", poin: 450 },
   { name: "Misi 5", location: "JAKARTA", poin: 350 },
 ];
-interface userData {
+
+interface Location {
+  latitude: string;
+  longitude: string;
+}
+
+interface Missions {
+  _id: string;
+  name: string;
+  description: string;
+  point: number;
+  location: Location;
+  thumbnail: string;
+  type: string;
+  city: string;
+  category: string;
+  pointMin: number;
+}
+
+interface MissionItem {
+  _id: string;
+  status: string;
+  missionId: string;
+  userId: string;
+  vote: number;
+  Missions: Missions;
+}
+
+interface UserData {
   _id: string;
   name: string;
   location: string;
@@ -31,34 +60,19 @@ interface userData {
   photo: string;
   point: number;
   thumbnail: string | null;
-  onGoingMissions: mission[];
-}
-interface Missions {
-  _id: string;
-  category: string;
-  city: string;
-  description: string;
-  location: {};
-  name: string;
-  point: number;
-  pointMin: number;
-  thumbnail: string;
-  type: string;
-}
-interface mission {
-  Details: Missions[];
-  _id: string;
-  missionId: string;
-  status: string;
-  userId: string;
-  vote: number;
+  onGoingMissions: MissionItem[];
 }
 
 const Separator = () => <View style={styles.separator} />;
 
 export default function HomeScreen() {
   const { access_token } = AuthProperty();
-  const [userData, setUserData] = useState<userData>();
+  const [userData, setUserData] = useState<UserData>();
+  const { handleSetDetail, detailUser } = AuthProperty();
+  const [userMission, setUserMission] = useState<Missions | null>(null);
+
+  // Pastikan detailUser tidak undefined
+  // console.log(detailUser, "< == detail user");
 
   const dataUser = async () => {
     try {
@@ -70,13 +84,30 @@ export default function HomeScreen() {
         },
       });
 
-      setUserData(res.data);
+      handleSetDetail(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchSelfMission = async () => {
+    try {
+      const res = await axios({
+        url: "/mission/my-mission",
+        headers: {
+          authorization: access_token,
+        },
+      });
+
+      setUserMission(res.data[0].Missions);
+      console.log(res.data[0].Missions.name, "Data ress");
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
+    fetchSelfMission();
     dataUser();
   }, []);
 
@@ -88,14 +119,14 @@ export default function HomeScreen() {
           <Text style={styles.subHeaderText}>Sunday, 25 Apr 2024</Text>
         </View>
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>Hello {userData?.username}</Text>
+          <Text style={styles.cardTitle}>Hello {detailUser?.username}</Text>
           <Text style={styles.cardSubtitle}>
-            Lv.{userData?.point ? userData?.point / 100 : 0}
+            Lv.{detailUser?.poin ? detailUser.point / 100 : 0}
           </Text>
         </View>
         <View>
           <Text style={styles.sectionTitle}>Daily mission :</Text>
-          <View style={styles.missionCard}>
+          <Link href={"/detail/" + userMission?._id} style={styles.missionCard}>
             <Image
               source={{
                 uri: "https://i.pinimg.com/564x/b2/ce/77/b2ce77463fa02f88282b5b59d34db30f.jpg",
@@ -104,23 +135,17 @@ export default function HomeScreen() {
             />
             <View style={styles.missionInfo}>
               <View style={styles.locationContainer}>
-                <Text style={styles.locationText}>
-                  {userData?.onGoingMissions[0]?.Details[0]?.city}
-                </Text>
+                <Text style={styles.locationText}>{userMission?.city}</Text>
               </View>
-              <Text style={styles.missionName}>
-                {userData?.onGoingMissions[0]?.Details[0]?.name}
-              </Text>
+              <Text style={styles.missionName}>{userMission?.name}</Text>
               <View style={styles.poinContainer}>
-                <Text style={styles.poinText}>
-                  +{userData?.onGoingMissions[0]?.Details[0]?.point}
-                </Text>
+                <Text style={styles.poinText}>+{userMission?.point}</Text>
               </View>
             </View>
             <Text style={styles.missionDescription}>
-              {userData?.onGoingMissions[0]?.Details[0]?.description}
+              {userMission?.description}
             </Text>
-          </View>
+          </Link>
         </View>
         <View>
           <Text style={styles.sectionTitle}>Sosial mission for you :</Text>
@@ -145,9 +170,7 @@ export default function HomeScreen() {
                   </View>
                 </View>
                 <Text style={styles.missionDescription}>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s.
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
                 </Text>
               </View>
             )}

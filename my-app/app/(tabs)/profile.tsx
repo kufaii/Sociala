@@ -36,7 +36,6 @@ export default function TabTwoScreen() {
         }
       });
 
-      console.log(data, "<_ data");
       setUser(data);
       validateProfileImage(data.photo);
     } catch (error) {

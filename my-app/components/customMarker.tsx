@@ -3,7 +3,7 @@ import React from 'react'
 import MapView, { Callout, Marker } from 'react-native-maps';
 
 export default function CustomMarker({ coordinate, title, image }) {
-    console.log('my location', coordinate);
+    // console.log('my location', coordinate);
   return (
     <Marker coordinate={{
         latitude: 6.0062877,

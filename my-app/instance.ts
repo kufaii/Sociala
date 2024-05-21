@@ -2,7 +2,7 @@ import axios from "axios";
 
 const instance = axios.create({
   // baseURL: "/pake link nghrokkk"
-  baseURL: "https://056a-180-247-19-208.ngrok-free.app",
+  baseURL: "https://af9f-103-165-209-194.ngrok-free.app",
 });
 
 export default instance;
