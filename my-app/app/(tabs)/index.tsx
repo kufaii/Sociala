@@ -85,8 +85,10 @@ export default function HomeScreen() {
       });
 
       handleSetDetail(res.data);
+      console.log(userMission)
     } catch (error) {
-      console.log(error);
+      console.log(error, "< +===");
+      console.log(error.response.data, "< +===");
     }
   };
 

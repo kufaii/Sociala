@@ -16,11 +16,11 @@ import axios from "@/instance"; //sesuaikan link via ngrok
 import { AuthProperty } from "@/AuthProvider";
 
 interface Respons {
-  data: { access_token: string };
+  data: { access_token: string, role: string };
 }
 
 export default function App() {
-  const { handleLogin } = AuthProperty();
+  const { handleLogin, setRoleUser } = AuthProperty();
 
   const [user, setUser] = useState({
     username: "",
@@ -35,7 +35,16 @@ export default function App() {
       //   data: user,
       // });
       // handleLogin(`Bearer ${data.access_token}`);
-      handleLogin(`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQ2MThkMTJiNWQ1MjBmZTg0MDNiNzgiLCJ1c2VybmFtZSI6InZhbmthNjYiLCJyb2xlIjoiVXNlciIsImlhdCI6MTcxNjI2MzIwNX0.qUoKGYhQp_unXf0i84CVDI3U7PHJNgpwd_Y-ShbUAzs`);
+      // console.log(data.role, "< ==")
+      // if (data.role === "Admin") {
+      //   setRoleUser(data.role);
+      // }
+
+      // handleLogin(`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQ2M2M1OWVkYzkzZDdjM2U5NmI2MWQiLCJ1c2VybmFtZSI6ImFkbWluMSIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTcxNjMwMTgzOX0.9iNp7q5_cfgHxjWgnQWcTQ4Q7C0BN92J_pPQOLIIBDc`);
+      // setRoleUser("Admin");
+
+      handleLogin(`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQ2MThkMTJiNWQ1MjBmZTg0MDNiNzgiLCJ1c2VybmFtZSI6InZhbmthNjYiLCJyb2xlIjoiVXNlciIsImlhdCI6MTcxNjMwMjQzNn0.GFHhvguqM9tLCHU5qw3J8QVVJfPElFWCW3F_d2ISaY8`);
+      setRoleUser("User");
     } catch (e) {
       alert(e.response.data.message);
       console.log(e, "< === error");
