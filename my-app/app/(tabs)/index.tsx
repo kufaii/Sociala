@@ -85,7 +85,7 @@ export default function HomeScreen() {
       });
 
       handleSetDetail(res.data);
-      console.log(userMission, "< <misi usereerrrr")
+      console.log(userMission, "< <misi usereerrrr");
     } catch (error) {
       console.log(error, "< +===");
       console.log(error.response.data, "< +===");
@@ -116,10 +116,6 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.innerContainer}>
-        <View style={styles.header}>
-          <Text style={styles.headerText}>Hasbabul-X</Text>
-          <Text style={styles.subHeaderText}>Sunday, 25 Apr 2024</Text>
-        </View>
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Hello {detailUser?.username}</Text>
           <Text style={styles.cardSubtitle}>
@@ -172,7 +168,9 @@ export default function HomeScreen() {
                   </View>
                 </View>
                 <Text style={styles.missionDescription}>
-                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry's
+                  standard dummy text ever since the 1500s.
                 </Text>
               </View>
             )}
@@ -183,9 +181,6 @@ export default function HomeScreen() {
           />
         </View>
       </View>
-      <Link href="/login" style={{ fontSize: 40, color: "white" }}>
-        Login
-      </Link>
     </SafeAreaView>
   );
 }
@@ -193,15 +188,9 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#16161a",
-    padding: 8,
+    paddingTop: 28,
   },
-  innerContainer: {
-    height: "90%",
-    borderRadius: 20,
-    gap: 25,
-    padding: 12,
-  },
+  innerContainer: {},
   header: {
     alignItems: "center",
   },
