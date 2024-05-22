@@ -62,7 +62,8 @@ export default function Map() {
         try {
             const { data } = await axios.get(`/mission/${id}`);
 
-            setMissionDetail(data);
+            setMissionDetail(data[0]);
+            console.log(data, "< detail misi")
 
             if (data.location) {
                 setPin({
@@ -104,14 +105,24 @@ export default function Map() {
             }
         }
     };
-    const handleUpload = async () => {
+    const handleUpload = async (source) => {
         try {
-            let result = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                allowsEditing: true,
-                aspect: [4, 3],
-                quality: 1,
-            });
+            let result;
+            if (source === 'camera') {
+                result = await ImagePicker.launchCameraAsync({
+                    mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                    allowsEditing: true,
+                    aspect: [4, 3],
+                    quality: 1,
+                });
+            } else {
+                result = await ImagePicker.launchImageLibraryAsync({
+                    mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                    allowsEditing: true,
+                    aspect: [4, 3],
+                    quality: 1,
+                });
+            }
 
             if (!result.cancelled) {
                 const uri = result.assets[0].uri;
@@ -120,12 +131,12 @@ export default function Map() {
                 const formData = new FormData();
                 formData.append('image', {
                     uri,
-                    type: 'image/jpeg', // Sesuaikan tipe berkas dengan kebutuhan server
-                    name: 'photo.jpg', // Nama berkas yang akan digunakan oleh server
+                    type: 'image/jpeg',
+                    name: 'photo.jpg',
                 });
 
                 // Mengirimkan permintaan POST dengan Axios
-                const { data } = await axios.post(`/mission/${id}`, formData, {
+                const { data } = await axios.post(`/mission/${missionDetail.DetailMission[0]._id}`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                         'Authorization': access_token,
@@ -137,10 +148,9 @@ export default function Map() {
             }
         } catch (error) {
             console.error('Error uploading file:', error.response ? error.response.data : error.message);
-            alert('Upload Error', 'An error occurred while uploading the file.');
+            alert('Failed to upload', 'An error occurred while uploading the file.');
         }
     };
-
 
     useEffect(() => {
         fetchDetail();
@@ -233,103 +243,32 @@ export default function Map() {
                             <Button title='See detail location' onPress={focusOnLocation} />
                         </View>
                     </View>
-                    <Pressable style={styles.uploadButton} onPress={handleUpload}>
-                        <Text style={styles.uploadText}>Upload</Text>
-                    </Pressable>
+                    <View style={styles.uploadButtonsContainer}>
+                        <Pressable style={styles.uploadButton} onPress={() => handleUpload('camera')}>
+                            <Text style={styles.uploadText}>Take Photo</Text>
+                        </Pressable>
+                        <Pressable style={styles.uploadButton} onPress={() => handleUpload('library')}>
+                            <Text style={styles.uploadText}>Choose Photo</Text>
+                        </Pressable>
+                    </View>
                 </View>
             </View>
         </SafeAreaView>
     );
 }
-
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#16161a',
-        padding: 8,
-    },
-    content: {
-        flex: 1,
-        width: '90%',
-        backgroundColor: "blue",
-        alignSelf: 'center',
-    },
-    header: {
-        textAlign: "center",
-        fontSize: 75,
-        fontWeight: "bold",
-        color: 'white',
-    },
-    participantsContainer: {
-        height: 150,
-        marginVertical: 10,
-    },
-    participantsTitle: {
-        fontSize: 25,
-        fontWeight: "bold",
-        color: 'white',
-    },
-    participantCard: {
-        width: 100,
-        height: 100,
-        backgroundColor: "white",
-        padding: 10,
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: 15,
-    },
-    participantAvatar: {
-        width: 50,
-        height: 50,
-        backgroundColor: "blue",
-        borderRadius: 50,
-    },
-    participantName: {
-        fontWeight: "bold",
-        fontSize: 20,
-    },
-    separator: {
-        width: 10,
-    },
-    detailsContainer: {
-        flex: 1,
-        gap: 8,
-    },
-    descriptionTitle: {
-        fontSize: 45,
-        fontWeight: "bold",
-        color: "white",
-    },
-    descriptionText: {
-        fontSize: 20,
-        color: 'white',
-    },
-    title: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        color: "white",
-        textAlign: "center",
-        marginBottom: 16,
-    },
-    mapContainer: {
-        height: 250,
-        width: '100%',
-        borderRadius: 20,
-        overflow: 'hidden',
-        borderWidth: 2,
-        borderColor: '#ddd',
-    },
-    map: {
-        ...StyleSheet.absoluteFillObject,
-    },
-    buttonContainer: {
-        marginTop: 20,
-        width: '100%',
-    },
+    container: { flex: 1, backgroundColor: '#16161a', padding: 8 },
+    content: { flex: 1, width: '90%', backgroundColor: 'blue', alignSelf: 'center' },
+    header: { textAlign: 'center', fontSize: 75, fontWeight: 'bold', color: 'white' },
+    detailsContainer: { flex: 1, gap: 8 },
+    descriptionTitle: { fontSize: 45, fontWeight: 'bold', color: 'white' },
+    descriptionText: { fontSize: 20, color: 'white' },
+    title: { fontSize: 32, fontWeight: 'bold', color: 'white', textAlign: 'center', marginBottom: 16 },
+    mapContainer: { height: 250, width: '100%', borderRadius: 20, overflow: 'hidden', borderWidth: 2, borderColor: '#ddd' },
+    map: { ...StyleSheet.absoluteFillObject },
+    buttonContainer: { marginTop: 20, width: '100%' },
+    uploadButtonsContainer: { flexDirection: 'row', justifyContent: 'space-around', marginTop: 20 },
     uploadButton: {
-        position: 'absolute',
-        bottom: 20,
-        right: 20,
         backgroundColor: 'yellow',
         borderRadius: 25,
         width: 100,
@@ -337,8 +276,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    uploadText: {
-        color: 'black',
-        fontWeight: 'bold',
-    },
+    uploadText: { color: 'black', fontWeight: 'bold' },
+    uploadedImage: { width: '100%', height: 200, marginTop: 20, borderRadius: 10 },
 });

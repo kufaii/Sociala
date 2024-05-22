@@ -85,7 +85,7 @@ export default function HomeScreen() {
       });
 
       handleSetDetail(res.data);
-      console.log(userMission)
+      console.log(userMission, "< <misi usereerrrr")
     } catch (error) {
       console.log(error, "< +===");
       console.log(error.response.data, "< +===");
