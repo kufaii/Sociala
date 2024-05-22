@@ -1,11 +1,13 @@
-import { Button, Dimensions, StyleSheet, Text, View, FlatList } from 'react-native';
+import { Button, Dimensions, StyleSheet, Text, View, FlatList, Pressable } from 'react-native';
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import CustomMarker from '../../components/customMarker';
+import * as ImagePicker from 'expo-image-picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams } from 'expo-router';
 import axios from '@/instance';
+import { AuthProperty } from '@/AuthProvider';
 
 interface Location {
     latitude: number;
@@ -38,6 +40,7 @@ const users = [
 const Separator = () => <View style={styles.separator} />;
 
 export default function Map() {
+    const { access_token } = AuthProperty()
     const { id } = useLocalSearchParams();
 
     const initialLocation = { latitude: -2.5, longitude: 118.0 };
@@ -58,9 +61,9 @@ export default function Map() {
     const fetchDetail = async () => {
         try {
             const { data } = await axios.get(`/mission/${id}`);
-            console.log(data, "< === ini datanya bwng");
 
             setMissionDetail(data);
+
             if (data.location) {
                 setPin({
                     latitude: parseFloat(data.location.latitude),
@@ -88,10 +91,11 @@ export default function Map() {
     };
 
     const focusOnLocation = () => {
-        if (missionDetail.location?.latitude && missionDetail.location?.longitude) {
+        if (missionDetail.location?.latitude && missionDetail.location?.longtitude) {
+            console.log("masuk < ==2")
             const newRegion = {
-                latitude: parseFloat(missionDetail.location.latitude),
-                longitude: parseFloat(missionDetail.location.longitude),
+                latitude: parseFloat(missionDetail?.location?.latitude),
+                longitude: parseFloat(missionDetail?.location?.longtitude),
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421
             };
@@ -100,6 +104,43 @@ export default function Map() {
             }
         }
     };
+    const handleUpload = async () => {
+        try {
+            let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,
+            });
+
+            if (!result.cancelled) {
+                const uri = result.assets[0].uri;
+
+                // Membuat objek FormData
+                const formData = new FormData();
+                formData.append('image', {
+                    uri,
+                    type: 'image/jpeg', // Sesuaikan tipe berkas dengan kebutuhan server
+                    name: 'photo.jpg', // Nama berkas yang akan digunakan oleh server
+                });
+
+                // Mengirimkan permintaan POST dengan Axios
+                const { data } = await axios.post(`/mission/${id}`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': access_token,
+                    },
+                });
+
+                console.log('Upload success:', data);
+                alert('Upload Success', 'File has been uploaded successfully.');
+            }
+        } catch (error) {
+            console.error('Error uploading file:', error.response ? error.response.data : error.message);
+            alert('Upload Error', 'An error occurred while uploading the file.');
+        }
+    };
+
 
     useEffect(() => {
         fetchDetail();
@@ -192,6 +233,9 @@ export default function Map() {
                             <Button title='See detail location' onPress={focusOnLocation} />
                         </View>
                     </View>
+                    <Pressable style={styles.uploadButton} onPress={handleUpload}>
+                        <Text style={styles.uploadText}>Upload</Text>
+                    </Pressable>
                 </View>
             </View>
         </SafeAreaView>
@@ -281,5 +325,20 @@ const styles = StyleSheet.create({
     buttonContainer: {
         marginTop: 20,
         width: '100%',
+    },
+    uploadButton: {
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+        backgroundColor: 'yellow',
+        borderRadius: 25,
+        width: 100,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    uploadText: {
+        color: 'black',
+        fontWeight: 'bold',
     },
 });
