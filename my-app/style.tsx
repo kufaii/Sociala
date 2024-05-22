@@ -3,20 +3,19 @@ import { Text, StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ecf0f1",
+    justifyContent: "center",
+    backgroundColor: "#f5f5f5",
     paddingTop: 28,
-    // borderRadius: 10,
-    // backgroundColor: "#eecc6a",
   },
   input: {
-    borderRadius: 30,
+    borderRadius: 15,
     borderColor: "#eecc6a",
     borderWidth: 2,
-    height: 40,
+    height: 50,
 
     paddingLeft: 20,
     marginTop: 5,
-    backgroundColor: "white",
+    backgroundColor: "#ffffff",
   },
   scrollContent: {
     flexGrow: 1,

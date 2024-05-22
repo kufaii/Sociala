@@ -212,7 +212,7 @@ export default function Survey() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#ffffff",
     paddingTop: 30,
   },
   scrollContent: {
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
   optionButton: {
     marginTop: 10,
     padding: 10,
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#f5f5f5",
     borderRadius: 10,
     width: "100%",
     alignItems: "center",

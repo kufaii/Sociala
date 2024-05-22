@@ -42,18 +42,11 @@ export default function Register() {
           style={{
             flex: 1,
             padding: 10,
-            borderRadius: 25,
-            borderWidth: 3,
-            borderColor: "gray",
           }}
         >
           <View
             style={{
               flex: 3,
-              // backgroundColor: "gray",
-              borderRadius: 25,
-              borderColor: "#eecc6a",
-              borderWidth: 3,
               marginBottom: 10,
               justifyContent: "center",
               alignItems: "center",
@@ -111,14 +104,12 @@ export default function Register() {
             <Pressable onPress={pressButton}>
               <View
                 style={{
-                  borderRadius: 30,
-                  borderColor: "#eecc6a",
-                  borderWidth: 1,
+                  borderRadius: 15,
                   marginTop: 5,
                   backgroundColor: "#eecc6a",
                   alignItems: "center",
                   justifyContent: "center",
-                  height: 35,
+                  height: 50,
                 }}
               >
                 <Text> Register </Text>
@@ -126,13 +117,15 @@ export default function Register() {
             </Pressable>
           </View>
 
-          <View style={{ flex: 1, alignItems: "center" }}>
-            <Text style={{ marginTop: 5, marginBottom: 5 }}>
-              You have already have account?
-              <Link href={"/login"} style={{ color: "blue", fontSize: 16 }}>
-                Login
-              </Link>
+          <View
+            style={{ flex: 1, flexDirection: "row", justifyContent: "center" }}
+          >
+            <Text style={{ fontSize: 14, marginRight: 2, color: "grey" }}>
+              Already have an account? Login
             </Text>
+            <Link href={"/login"} style={{ color: "#eecc6a", fontSize: 14 }}>
+              here
+            </Link>
           </View>
         </View>
       </KeyboardAwareScrollView>
