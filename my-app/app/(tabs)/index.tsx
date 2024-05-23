@@ -17,14 +17,6 @@ const { height, width } = Dimensions.get("window");
 
 const separatorW = () => <View style={{ width: 10 }}></View>;
 
-const DATA = [
-  { name: "Begal Di Pasar Turi", location: "JAKARTA", poin: 150 },
-  { name: "Clean Up the Beach", location: "SURABAYA", poin: 500 },
-  { name: "Meditation in the Park", location: "JAKARTA", poin: 250 },
-  { name: "Surabaya Food Crawl", location: "SURABAYA", poin: 450 },
-  { name: "Street Art Tour", location: "JAKARTA", poin: 350 },
-];
-
 interface Location {
   latitude: string;
   longitude: string;

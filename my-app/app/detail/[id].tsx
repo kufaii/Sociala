@@ -1,12 +1,4 @@
-import {
-  Button,
-  Dimensions,
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  Pressable,
-} from "react-native";
+import { Dimensions, StyleSheet, Text, View, Pressable } from "react-native";
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
@@ -47,6 +39,7 @@ export default function Map() {
   const { access_token } = AuthProperty();
   const { id } = useLocalSearchParams();
 
+  const [isAccept, setIsAccept] = useState(false);
   const initialLocation = { latitude: -2.5, longitude: 118.0 };
   const [myLocation, setMyLocation] = useState<Location>(initialLocation);
   const [pin, setPin] = useState<Location | null>(null);

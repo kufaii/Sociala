@@ -6,6 +6,7 @@ import {
   View,
   FlatList,
   Pressable,
+  Image,
 } from "react-native";
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import MapView, { Marker } from "react-native-maps";
@@ -16,6 +17,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useLocalSearchParams } from "expo-router";
 import axios from "@/instance";
 import { AuthProperty } from "@/AuthProvider";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 interface Location {
   latitude: number;
@@ -38,9 +40,25 @@ interface MissionDetail {
 
 const { width, height } = Dimensions.get("window");
 
-const users = [{ name: "yo" }, { name: "yo" }, { name: "yo" }, { name: "yo" }];
-
 const Separator = () => <View style={styles.separator} />;
+
+const users = [
+  {
+    username: "rinon1",
+    photo:
+      "https://i.pinimg.com/originals/67/39/d3/6739d3f014700d1a7166561503334fe7.jpg",
+  },
+  {
+    username: "rinon2",
+    photo:
+      "https://i.pinimg.com/originals/67/39/d3/6739d3f014700d1a7166561503334fe7.jpg",
+  },
+  {
+    username: "rinon3",
+    photo:
+      "https://i.pinimg.com/originals/67/39/d3/6739d3f014700d1a7166561503334fe7.jpg",
+  },
+];
 
 export default function Map() {
   const { access_token } = AuthProperty();
@@ -213,17 +231,35 @@ export default function Map() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.header}>{missionDetail?.name}</Text>
+        <View style={styles.detailContent}>
+          <Text style={styles.header}>{missionDetail?.name}</Text>
+          <Text style={styles.descriptionTitle}>Description:</Text>
+          <Text style={styles.descriptionText}>
+            {missionDetail.description}
+          </Text>
+        </View>
+
         {/* {missionDetail?.participants?.length > 1 && ( */}
-        <View style={styles.participantsContainer}>
-          <Text style={styles.participantsTitle}>All Participants</Text>
+        <View style={{}}>
+          <Text style={{}}>All Participants:</Text>
           <FlatList
             data={users}
             horizontal
             renderItem={({ item }) => (
-              <View style={styles.participantCard}>
-                <View style={styles.participantAvatar} />
-                <Text style={styles.participantName}>User 1</Text>
+              <View style={{}}>
+                <Image
+                  source={{
+                    uri: item.photo,
+                  }}
+                  style={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: 20,
+                    marginRight: 10,
+                    marginTop: 5,
+                  }}
+                />
+                <Text style={{ marginBottom: 10 }}>{item.username}</Text>
               </View>
             )}
             ItemSeparatorComponent={Separator}
@@ -235,13 +271,6 @@ export default function Map() {
         {/* )} */}
         <View style={styles.detailsContainer}>
           <View>
-            <Text style={styles.descriptionTitle}>Description</Text>
-            <Text style={styles.descriptionText}>
-              {missionDetail.description}
-            </Text>
-          </View>
-          <View>
-            <Text style={styles.title}>Location</Text>
             <View style={styles.mapContainer}>
               <MapView
                 style={styles.map}
@@ -250,96 +279,98 @@ export default function Map() {
                 ref={mapRef}
                 provider={"google"}
               >
-                {/* {myLocation?.latitude && myLocation?.longitude &&
-                                      <Marker
-                                          coordinate={{
-                                              latitude: myLocation.latitude,
-                                              longitude: myLocation.longitude
-                                          }}
-                                          title='My current location'
-                                          description='I am here'
-                                      />
-                                  } */}
                 {memoizedCustomMarker}
                 {missionDetail.location && (
                   <Marker
                     coordinate={{
-                      latitude: parseFloat(misionLocation.latitude),
-                      longitude: parseFloat(misionLocation.longtitude),
+                      latitude: parseFloat(
+                        misionLocation?.latitude || "-7.2456156"
+                      ),
+                      longitude: parseFloat(
+                        misionLocation?.longtitude || "112.73241,17"
+                      ),
                     }}
                     title="Default location"
                     description="I am here"
                   />
                 )}
-                {/* {pin?.latitude && pin?.longitude &&
-                                      (<Marker
-                                          coordinate={{
-                                              latitude: pin.latitude,
-                                              longitude: pin.longitude
-                                          }}
-                                          title='Default location'
-                                          description='I am here'
-                                      />)
-                                  } */}
               </MapView>
             </View>
-            <View style={styles.buttonContainer}>
-              <Button title="See detail location" onPress={focusOnLocation} />
-            </View>
+            <Pressable style={styles.buttonContainer} onPress={focusOnLocation}>
+              <Text>See detail location</Text>
+            </Pressable>
           </View>
-          <View style={styles.uploadButtonsContainer}>
-            {isAccept ? (
-              <>
+          {isAccept ? (
+            <>
+              <View style={styles.uploadButton}>
                 <Pressable
-                  style={styles.uploadButton}
                   onPress={() => handleUpload("camera")}
+                  style={styles.iconContainer}
                 >
-                  <Text style={styles.uploadText}>Take Photo</Text>
+                  <Icon name="camera" size={30} />
                 </Pressable>
+                <Text style={styles.uploadText}>Take Photo</Text>
+              </View>
+              <View style={styles.uploadButton2}>
                 <Pressable
-                  style={styles.uploadButton}
                   onPress={() => handleUpload("library")}
+                  style={styles.iconContainer}
                 >
-                  <Text style={styles.uploadText}>Choose Photo</Text>
+                  <Icon name="archive" size={30} />
                 </Pressable>
-              </>
-            ) : (
+                <Text style={styles.uploadText}>Choose Photo</Text>
+              </View>
+            </>
+          ) : (
+            <View style={styles.uploadButton3}>
               <Pressable
-                style={styles.uploadButton}
-                onPress={() => handleUpload("camera")}
+                onPress={() => setIsAccept(true)}
+                style={styles.acceptContainer}
               >
-                <Text style={styles.uploadText}>Accept mission</Text>
+                <Text style={styles.uploadText}>Accept Mission</Text>
               </Pressable>
-            )}
-          </View>
+            </View>
+          )}
         </View>
       </View>
     </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#16161a", padding: 8 },
+  container: {
+    flex: 1,
+    backgroundColor: "#16161a",
+    paddingVertical: 20,
+  },
   content: {
     flex: 1,
     width: "90%",
-    backgroundColor: "blue",
+    height: "90%",
+    paddingTop: 20,
+    paddingHorizontal: 20,
+    backgroundColor: "#ffffff",
+    borderRadius: 15,
     alignSelf: "center",
   },
+  detailContent: {
+    backgroundColor: "#f5f5f5",
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 20,
+  },
   header: {
-    textAlign: "center",
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: "bold",
-    color: "white",
+    marginBottom: 20,
   },
   detailsContainer: { flex: 1, gap: 8 },
-  descriptionTitle: { fontSize: 45, fontWeight: "bold", color: "white" },
-  descriptionText: { fontSize: 20, color: "white" },
+  descriptionTitle: { fontSize: 16, fontWeight: "500" },
+  descriptionText: { fontSize: 16 },
   title: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "white",
+    fontSize: 16,
+    fontWeight: "500",
     textAlign: "center",
-    marginBottom: 16,
+    marginBottom: 5,
   },
   mapContainer: {
     height: 250,
@@ -350,21 +381,75 @@ const styles = StyleSheet.create({
     borderColor: "#ddd",
   },
   map: { ...StyleSheet.absoluteFillObject },
-  buttonContainer: { marginTop: 20, width: "100%" },
-  uploadButtonsContainer: {
-    flexDirection: "row",
-    // justifyContent: "space-around",
-    marginTop: 20,
-  },
-  uploadButton: {
-    backgroundColor: "yellow",
-    borderRadius: 25,
-    width: 100,
-    height: 50,
+  buttonContainer: {
+    marginTop: 10,
+    width: "100%",
+    height: 30,
+    backgroundColor: "#eecc6a",
     justifyContent: "center",
     alignItems: "center",
+    borderRadius: 8,
   },
-  uploadText: { color: "black", fontWeight: "bold" },
+  uploadButtonsContainer: {
+    bottom: 20,
+    left: "50%",
+    transform: [{ translateX: -100 }],
+    position: "absolute",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: 300,
+  },
+  uploadButton: {
+    width: 100,
+    height: 80,
+    justifyContent: "space-between",
+    alignItems: "center",
+    bottom: 30,
+    right: 20,
+    position: "absolute",
+    paddingVertical: 15,
+  },
+  uploadButton2: {
+    width: 100,
+    height: 80,
+    justifyContent: "space-between",
+    alignItems: "center",
+    bottom: 30,
+    left: 20,
+    position: "absolute",
+    paddingVertical: 15,
+  },
+  uploadButton3: {
+    width: 100,
+    height: 80,
+    justifyContent: "space-between",
+    alignItems: "center",
+    bottom: 30,
+    right: 25,
+    position: "absolute",
+    paddingVertical: 15,
+  },
+  uploadText: {
+    color: "black",
+    fontWeight: "500",
+    position: "relative",
+  },
+  iconContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: 60,
+    width: 60,
+    backgroundColor: "#eecc6a",
+    borderRadius: 60,
+  },
+  acceptContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: 40,
+    width: 140,
+    backgroundColor: "#eecc6a",
+    borderRadius: 12,
+  },
   uploadedImage: {
     width: "100%",
     height: 200,
