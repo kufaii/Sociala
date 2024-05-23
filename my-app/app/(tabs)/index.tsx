@@ -15,6 +15,8 @@ import axios from "@/instance";
 
 const { height, width } = Dimensions.get("window");
 
+const separatorW = () => <View style={{ width: 10 }}></View>;
+
 const DATA = [
   { name: "Begal Di Pasar Turi", location: "JAKARTA", poin: 150 },
   { name: "Clean Up the Beach", location: "SURABAYA", poin: 500 },
@@ -71,6 +73,7 @@ export default function HomeScreen() {
   const [userData, setUserData] = useState<UserData>();
   const { handleSetDetail, detailUser } = AuthProperty();
   const [userMission, setUserMission] = useState<Missions | null>(null);
+  const [socialMission, setSocialMission] = useState([]);
 
   // Pastikan detailUser tidak undefined
   // console.log(detailUser, "< == detail user");
@@ -80,6 +83,14 @@ export default function HomeScreen() {
       const res = await axios({
         method: "GET",
         url: "/user/my-profile",
+        headers: {
+          authorization: access_token,
+        },
+      });
+
+      const resSocial = await axios({
+        method: "GET",
+        url: "/social/mission",
         headers: {
           authorization: access_token,
         },
@@ -96,6 +107,8 @@ export default function HomeScreen() {
 
       handleSetDetail(res.data);
       console.log("ini res data", res.data);
+      console.log(resSocial.data, "< === res social");
+      setSocialMission(resSocial.data);
     } catch (error) {
       console.log(error, "< +===");
       console.log(error.response.data, "< +===");
@@ -138,7 +151,7 @@ export default function HomeScreen() {
         <View style={{ paddingTop: 30, paddingHorizontal: 10 }}>
           <Text style={styles.sectionTitle}>Sosial mission for you :</Text>
           <FlatList
-            data={DATA}
+            data={socialMission}
             horizontal
             renderItem={({ item }) => (
               <Link href={"/detail/" + userMission?._id}>
@@ -158,8 +171,8 @@ export default function HomeScreen() {
                         paddingHorizontal: 20,
                       }}
                     >
-                      <Text style={styles.locationText}>{item.location}</Text>
-                      <Text style={styles.poinText}>+{item.poin}</Text>
+                      <Text style={styles.locationText}>{item.city}</Text>
+                      <Text style={styles.poinText}>+{item.point}</Text>
                     </View>
                     <Text style={styles.missionName}>{item.name}</Text>
                   </View>
@@ -172,11 +185,48 @@ export default function HomeScreen() {
                   >
                     Participant:
                   </Text>
-                  <View style={styles.userContainer}>
+                  <FlatList
+                    data={socialMission.participants}
+                    horizontal={true}
+                    renderItem={({ item }) => (
+                      <View
+                        style={{
+                          width: 80,
+                          height: 80,
+                          backgroundColor: "white",
+                          padding: 10,
+                          alignItems: "center",
+                          justifyContent: "center",
+                          borderRadius: 15,
+                        }}
+                      >
+                        <View
+                          style={{
+                            width: 40,
+                            height: 40,
+                            backgroundColor: "blue",
+                            borderRadius: 50,
+                          }}
+                        />
+                        <Text
+                          style={{
+                            fontWeight: "bold",
+                            fontSize: 20,
+                          }}
+                        >
+                          User 1
+                        </Text>
+                      </View>
+                    )}
+                    ItemSeparatorComponent={separatorW}
+                    showsHorizontalScrollIndicator={false}
+                    decelerationRate="fast"
+                  />
+                  {/* <View style={styles.userContainer}>
                     <View style={styles.userBox} />
                     <View style={styles.userBox} />
                     <View style={styles.userBox} />
-                  </View>
+                  </View> */}
                 </View>
               </Link>
             )}
