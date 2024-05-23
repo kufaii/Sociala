@@ -154,7 +154,7 @@ export default function HomeScreen() {
             data={socialMission}
             horizontal
             renderItem={({ item }) => (
-              <Link href={"/detail/" + userMission?._id}>
+              <Link href={"/detailSocial/" + userMission?._id}>
                 <View style={styles.missionCard}>
                   <Image
                     source={{
