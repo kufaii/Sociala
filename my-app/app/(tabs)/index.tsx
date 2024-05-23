@@ -157,7 +157,9 @@ export default function HomeScreen() {
                 <View style={styles.missionCard}>
                   <Image
                     source={{
-                      uri: "https://i.pinimg.com/564x/b2/ce/77/b2ce77463fa02f88282b5b59d34db30f.jpg",
+                      uri:
+                        item.thumbnail ||
+                        "https://i.pinimg.com/564x/b2/ce/77/b2ce77463fa02f88282b5b59d34db30f.jpg",
                     }}
                     style={styles.missionImage}
                   />

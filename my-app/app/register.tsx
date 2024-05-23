@@ -53,8 +53,8 @@ export default function Register() {
             }}
           >
             <Image
-              source={require("../assets/images/home2.png")}
-              style={{ width: 300, height: 300 }}
+              source={require("../assets/images/tulisan.png")}
+              style={{ width: 300, height: 200, resizeMode: "contain" }}
             />
           </View>
 

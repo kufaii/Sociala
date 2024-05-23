@@ -71,8 +71,8 @@ export default function App() {
             }}
           >
             <Image
-              source={require("../assets/images/home2.png")}
-              style={{ width: 300, height: 300 }}
+              source={require("../assets/images/logo.png")}
+              style={{ width: 200, height: 300, resizeMode: "contain" }}
             />
           </View>
 
