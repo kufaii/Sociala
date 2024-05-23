@@ -1,5 +1,6 @@
 import { AuthProperty } from '@/AuthProvider';
 import axios from '@/instance';
+import { Link } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Image, View, Text, SafeAreaView, Pressable, Dimensions, FlatList } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
@@ -76,9 +77,9 @@ export default function TabTwoScreen() {
           />
         </View>
         <View style={styles.editProfileButton}>
-          <Pressable style={styles.editProfilePressable}>
+          <Link href={"/formEdit"} style={styles.editProfilePressable}>
             <Text style={styles.editProfileText}>Edit Profile</Text>
-          </Pressable>
+          </Link>
         </View>
         <View style={styles.profileInfo}>
           <Text style={styles.profileName}>{user.name}</Text>
@@ -197,6 +198,7 @@ const styles = StyleSheet.create({
   },
   editProfileText: {
     color: "white",
+    textAlign: "center"
   },
   profileInfo: {
     flex: 1,

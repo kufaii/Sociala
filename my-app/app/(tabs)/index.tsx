@@ -84,6 +84,16 @@ export default function HomeScreen() {
         },
       });
 
+      const { data } = await axios({
+        url: "/mission/my-mission",
+        headers: {
+          authorization: access_token,
+        },
+      });
+
+      setUserMission(data[0].Missions);
+      console.log(data[0].Missions.name, "Data ress");
+
       handleSetDetail(res.data);
       console.log(userMission, "< <misi usereerrrr")
     } catch (error) {
@@ -92,24 +102,7 @@ export default function HomeScreen() {
     }
   };
 
-  const fetchSelfMission = async () => {
-    try {
-      const res = await axios({
-        url: "/mission/my-mission",
-        headers: {
-          authorization: access_token,
-        },
-      });
-
-      setUserMission(res.data[0].Missions);
-      console.log(res.data[0].Missions.name, "Data ress");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
-    fetchSelfMission();
     dataUser();
   }, []);
 
@@ -183,9 +176,6 @@ export default function HomeScreen() {
           />
         </View>
       </View>
-      <Link href="/login" style={{ fontSize: 40, color: "white" }}>
-        Login
-      </Link>
     </SafeAreaView>
   );
 }
@@ -193,7 +183,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#16161a",
+    backgroundColor: "#333",
     padding: 8,
   },
   innerContainer: {
