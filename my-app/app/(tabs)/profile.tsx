@@ -1,40 +1,84 @@
-import { AuthProperty } from '@/AuthProvider';
-import axios from '@/instance';
-import { Link } from 'expo-router';
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Image, View, Text, SafeAreaView, Pressable, Dimensions, FlatList } from 'react-native';
-import SelectDropdown from 'react-native-select-dropdown';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
+import { AuthProperty } from "@/AuthProvider";
+import axios from "@/instance";
+<<<<<<< HEAD
+import { Link } from "expo-router";
+=======
+>>>>>>> 0227c01aba9814b794eec74c092b0e23544a169b
+import React, { useEffect, useState } from "react";
+import {
+  StyleSheet,
+  Image,
+  View,
+  Text,
+  SafeAreaView,
+  Pressable,
+  Dimensions,
+  FlatList,
+} from "react-native";
+import SelectDropdown from "react-native-select-dropdown";
+import Icon from "react-native-vector-icons/FontAwesome5";
+import IconM from "react-native-vector-icons/MaterialCommunityIcons";
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 
 export default function TabTwoScreen() {
   const { handleLogout } = AuthProperty();
   const { access_token } = AuthProperty();
   const [user, setUser] = useState({});
-  const [profileImage, setProfileImage] = useState('https://via.placeholder.com/100');
+  const [profileImage, setProfileImage] = useState(
+    "https://via.placeholder.com/100"
+  );
 
   const emojisWithIcons = [
-    { title: 'Adventure', icon: 'space-shuttle' },
-    { title: 'Social', icon: 'users' },
-    { title: 'Individu', icon: 'user' },
+    { title: "Adventure", icon: "space-shuttle" },
+    { title: "Social", icon: "users" },
+    { title: "Individu", icon: "user-alt" },
   ];
 
+  const historyIcon = (category: string) => {
+    let iconName;
+    switch (category) {
+      case "adventure":
+        iconName = "space-shuttle";
+        break;
+      case "social":
+        iconName = "users";
+        break;
+
+      default:
+        iconName = "user-alt";
+        break;
+    }
+    return <Icon name={iconName} />;
+  };
+
   const renderItem = ({ item }) => (
-    <View style={styles.historyItem}>
-      <Text>{item.title}</Text>
+    <View style={styles.historyCard}>
+      <Text>
+        {historyIcon(item.Details[0].category)}
+        {"  "}
+        {item.Details[0].name}
+      </Text>
+      <Text
+        style={{
+          textAlign: "right",
+          marginTop: 10,
+          fontWeight: "500",
+          color: "#eecc6a",
+        }}
+      >
+        +{item.Details[0].point}
+      </Text>
     </View>
   );
 
   const fetchUser = async () => {
     try {
-      console.log(access_token, "< === Access token");
       const { data } = await axios({
         url: "/user/my-profile",
         headers: {
-          Authorization: access_token
-        }
+          Authorization: access_token,
+        },
       });
 
       setUser(data);
@@ -50,7 +94,7 @@ export default function TabTwoScreen() {
         setProfileImage(url);
       })
       .catch(() => {
-        setProfileImage('https://via.placeholder.com/100');
+        setProfileImage("https://via.placeholder.com/100");
       });
   };
 
@@ -59,10 +103,18 @@ export default function TabTwoScreen() {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "blue" }}>
+<<<<<<< HEAD
+    <SafeAreaView style={{ flex: 1 }}>
+=======
+    <SafeAreaView style={{ flex: 1, paddingTop: 28 }}>
+>>>>>>> 0227c01aba9814b794eec74c092b0e23544a169b
       <View style={styles.headerImageContainer}>
         <Image
-          source={{ uri: user.thumbnail || 'https://akcdn.detik.net.id/visual/2020/10/31/ebel_169.jpeg?w=900&q=90' }}
+          source={{
+            uri:
+              user.thumbnail ||
+              "https://t4.ftcdn.net/jpg/03/98/37/09/360_F_398370925_cNmAIHp5m1sKf2dqEWuP3IxgkLBuOaGq.jpg",
+          }}
           style={styles.headerImage}
         />
         <Pressable style={styles.logoutButton} onPress={() => handleLogout()}>
@@ -71,10 +123,7 @@ export default function TabTwoScreen() {
       </View>
       <View style={styles.container}>
         <View style={styles.profileContainer}>
-          <Image
-            source={{ uri: profileImage }}
-            style={styles.profileImage}
-          />
+          <Image source={{ uri: profileImage }} style={styles.profileImage} />
         </View>
         <View style={styles.editProfileButton}>
           <Link href={"/formEdit"} style={styles.editProfilePressable}>
@@ -82,59 +131,82 @@ export default function TabTwoScreen() {
           </Link>
         </View>
         <View style={styles.profileInfo}>
-          <Text style={styles.profileName}>{user.name}</Text>
-          <Text style={styles.profileUsername}>@{user.username}</Text>
-          <Text style={styles.profileBio}>
-            {user.description}
-          </Text>
-          <View style={styles.progressBarContainer}>
-            <Image
-              source={{
-                uri: 'https://i.pinimg.com/564x/b2/ce/77/b2ce77463fa02f88282b5b59d34db30f.jpg',
-              }}
-              style={styles.progressBarImage}
-            />
-            <View style={styles.progressBarTextContainer}>
+          <View style={{ paddingHorizontal: 20 }}>
+            <Text style={styles.profileName}>
+              {user.name}
+              {"  "}
+              <Text style={styles.profileUsername}>@{user.username}</Text>
+            </Text>
+
+            <View style={styles.progressBarContainer}>
               <Text style={styles.progressBarTitle}>
-                Progress bar
+                Level {Math.floor(user.point / 100)}
               </Text>
-              <Text style={styles.progressBarText}>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
-              </Text>
+              <View style={styles.progressBar}>
+                <View
+                  style={[
+                    styles.progressBarFill,
+                    { width: `${user.point % 100}%` },
+                  ]}
+                />
+              </View>
             </View>
+            <Text style={styles.profileBio}>
+              {user.description ? user.description : "No description yet"}
+            </Text>
           </View>
-          <View style={styles.historyContainer}>
-            <Text style={styles.historyTitle}>History</Text>
-            <SelectDropdown
-              data={emojisWithIcons}
-              onSelect={(selectedItem, index) => {
-                console.log(selectedItem, index);
-              }}
-              renderButton={(selectedItem, isOpened) => {
-                return (
-                  <View style={styles.dropdownButtonStyle}>
-                    {selectedItem && (
-                      <Icon name={selectedItem.icon} />
-                    )}
-                    <Text style={styles.dropdownButtonTxtStyle}>
-                      {(selectedItem && selectedItem.title) || 'Select category'}
-                    </Text>
-                    <Icon name={isOpened ? 'sort-up' : 'sort-down'} style={styles.dropdownButtonArrowStyle} />
-                  </View>
-                );
-              }}
-              renderItem={(item, index, isSelected) => {
-                return (
-                  <View style={{ ...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: '#D2D9DF' }) }}>
-                    <Icon name={item.icon} style={styles.dropdownItemIconStyle} />
-                    <Text style={styles.dropdownItemTxtStyle}>{item.title}</Text>
-                  </View>
-                );
-              }}
-              showsVerticalScrollIndicator={false}
-              dropdownStyle={styles.dropdownMenuStyle}
-            />
-          </View>
+        </View>
+        <View style={styles.historyContainer}>
+          <Text style={styles.historyTitle}>History</Text>
+          <SelectDropdown
+            data={emojisWithIcons}
+            onSelect={(selectedItem, index) => {
+              console.log(selectedItem, index);
+            }}
+            renderButton={(selectedItem, isOpened) => {
+              return (
+                <View style={styles.dropdownButtonStyle}>
+                  {selectedItem && <Icon name={selectedItem.icon} />}
+                  <Text style={styles.dropdownButtonTxtStyle}>
+                    {(selectedItem && selectedItem.title) || "Select category"}
+                  </Text>
+                  <Icon
+                    name={isOpened ? "sort-up" : "sort-down"}
+                    style={
+                      isOpened
+                        ? styles.dropdownButtonArrowStyle2
+                        : styles.dropdownButtonArrowStyle
+                    }
+                  />
+                </View>
+              );
+            }}
+            renderItem={(item, index, isSelected) => {
+              return (
+                <View
+                  style={{
+                    ...styles.dropdownItemStyle,
+                    ...(isSelected && { backgroundColor: "#D2D9DF" }),
+                  }}
+                >
+                  <Icon name={item.icon} style={styles.dropdownItemIconStyle} />
+                  <Text style={styles.dropdownItemTxtStyle}>{item.title}</Text>
+                </View>
+              );
+            }}
+            showsVerticalScrollIndicator={false}
+            dropdownStyle={styles.dropdownMenuStyle}
+          />
+<<<<<<< HEAD
+          <FlatList
+            data={user.finishedMissions}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+            contentContainerStyle={{ paddingTop: 20 }}
+            ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+          />
+=======
+>>>>>>> 0227c01aba9814b794eec74c092b0e23544a169b
         </View>
       </View>
     </SafeAreaView>
@@ -143,35 +215,42 @@ export default function TabTwoScreen() {
 
 const styles = StyleSheet.create({
   headerImageContainer: {
-    width: '100%',
-    height: 225,
-    backgroundColor: '#d3d3d3',
+    width: "100%",
+<<<<<<< HEAD
+    height: 145,
+=======
+    height: 105,
+>>>>>>> 0227c01aba9814b794eec74c092b0e23544a169b
+    backgroundColor: "#d3d3d3",
   },
   headerImage: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
   },
   container: {
     flex: 1,
-    backgroundColor: "blue",
     position: "relative",
-    paddingHorizontal: 10,
+<<<<<<< HEAD
+    backgroundColor: "#f5f5f5",
+=======
+>>>>>>> 0227c01aba9814b794eec74c092b0e23544a169b
   },
   logoutButton: {
-    position: 'absolute',
+    position: "absolute",
     top: 50,
     right: 50,
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
     borderRadius: 20,
     padding: 10,
   },
   logoutIcon: {
     fontSize: 20,
-    color: 'black',
+    color: "black",
   },
   profileContainer: {
-    flexDirection: 'row',
-    padding: 15,
+    flexDirection: "row",
+    paddingHorizontal: 15,
+    marginBottom: 5,
     marginTop: -50,
   },
   profileImage: {
@@ -179,130 +258,144 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     borderWidth: 3,
-    borderColor: '#fff',
+    borderColor: "#fff",
   },
   editProfileButton: {
     position: "absolute",
     top: 15,
     right: 15,
+<<<<<<< HEAD
+=======
   },
   editProfilePressable: {
-    backgroundColor: "black",
-    borderRadius: 50,
+    backgroundColor: "white",
+    borderRadius: 12,
     height: 35,
     width: 85,
-    borderWidth: 2,
-    borderColor: "white",
+    borderWidth: 1,
+    borderColor: "grey",
+>>>>>>> 0227c01aba9814b794eec74c092b0e23544a169b
     alignItems: "center",
     justifyContent: "center",
   },
+  editProfilePressable: {
+    backgroundColor: "white",
+    borderRadius: 12,
+    height: 35,
+    width: 105,
+    borderWidth: 1,
+    borderColor: "grey",
+  },
   editProfileText: {
-    color: "white",
-    textAlign: "center"
+<<<<<<< HEAD
+    // textAlign: "center",
   },
   profileInfo: {
-    flex: 1,
-    paddingHorizontal: 10,
+    backgroundColor: "#f5f5f5",
+=======
+    color: "grey",
+  },
+  profileInfo: {
+    borderBottomWidth: 1,
+>>>>>>> 0227c01aba9814b794eec74c092b0e23544a169b
   },
   profileName: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   profileUsername: {
-    color: 'gray',
-    fontSize: 18,
+    color: "gray",
+    fontSize: 24,
+    fontWeight: "300",
   },
   profileBio: {
-    marginVertical: 10,
-    color: 'gray',
+    marginTop: 10,
+    height: 60,
   },
   progressBarContainer: {
-    height: 200,
-    width: '100%',
-    borderRadius: 20,
-    padding: 5,
-    borderWidth: 2,
-    backgroundColor: '#ff8906',
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
-  },
-  progressBarImage: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 15,
-    position: 'absolute',
-  },
-  progressBarTextContainer: {
-    position: 'absolute',
-    top: 10,
-    left: 10,
-    right: 10,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    paddingHorizontal: 10,
-    paddingTop: 10,
+    height: 30,
+    width: "100%",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
   },
   progressBarTitle: {
-    fontSize: 28,
-    color: '#fffffe',
-    zIndex: 1,
-    fontWeight: 'bold',
+    fontSize: 20,
   },
-  progressBarText: {
-    fontSize: 16,
-    textAlign: 'center',
-    paddingTop: 32,
-    color: '#fffffe',
-    zIndex: 1,
-    fontWeight: 'bold',
+  progressBar: {
+<<<<<<< HEAD
+    height: 18,
+=======
+    height: 20,
+>>>>>>> 0227c01aba9814b794eec74c092b0e23544a169b
+    width: "75%",
+    backgroundColor: "#e0e0e0",
+    borderRadius: 10,
+    overflow: "hidden",
+  },
+  progressBarFill: {
+    height: "100%",
+<<<<<<< HEAD
+    backgroundColor: "#eecc6a",
+=======
+    backgroundColor: "#FFD700",
+>>>>>>> 0227c01aba9814b794eec74c092b0e23544a169b
   },
   historyContainer: {
     flex: 1,
-    backgroundColor: "yellow",
-    marginTop: 20,
+    paddingHorizontal: 20,
+<<<<<<< HEAD
+    backgroundColor: "#ffffff",
+=======
+>>>>>>> 0227c01aba9814b794eec74c092b0e23544a169b
   },
   historyTitle: {
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: "bold",
+    marginVertical: 10,
   },
   dropdownButtonStyle: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#E9ECEF',
+    width: "100%",
+    height: 45,
+    backgroundColor: "#E9ECEF",
     borderRadius: 12,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     paddingHorizontal: 12,
   },
   dropdownButtonTxtStyle: {
     flex: 1,
     marginLeft: "auto",
     fontSize: 18,
-    fontWeight: '500',
-    color: '#151E26',
+    fontWeight: "500",
+    color: "#151E26",
   },
   dropdownButtonArrowStyle: {
     fontSize: 28,
+    paddingBottom: 10,
+  },
+  dropdownButtonArrowStyle2: {
+    fontSize: 28,
+    paddingTop: 10,
   },
   dropdownMenuStyle: {
-    backgroundColor: '#E9ECEF',
+    backgroundColor: "#E9ECEF",
     borderRadius: 8,
   },
   dropdownItemStyle: {
-    width: '100%',
-    flexDirection: 'row',
+    width: "100%",
+    flexDirection: "row",
     paddingHorizontal: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     paddingVertical: 8,
   },
   dropdownItemTxtStyle: {
     flex: 1,
     fontSize: 18,
-    fontWeight: '500',
-    color: '#151E26',
+    fontWeight: "500",
+    color: "#151E26",
   },
   dropdownItemIconStyle: {
     fontSize: 28,
@@ -311,6 +404,17 @@ const styles = StyleSheet.create({
   historyItem: {
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderBottomColor: "#ccc",
+<<<<<<< HEAD
+  },
+  historyCard: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    height: "auto",
+    width: "100%",
+    borderRadius: 10,
+    backgroundColor: "#f5f5f5",
+=======
+>>>>>>> 0227c01aba9814b794eec74c092b0e23544a169b
   },
 });

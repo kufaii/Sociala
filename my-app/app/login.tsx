@@ -13,10 +13,11 @@ import { useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Link } from "expo-router";
 import axios from "@/instance"; //sesuaikan link via ngrok
+import pureAxios, { AxiosError } from "axios";
 import { AuthProperty } from "@/AuthProvider";
 
 interface Respons {
-  data: { access_token: string, role: string };
+  data: { access_token: string; role: string };
 }
 
 export default function App() {
@@ -33,22 +34,21 @@ export default function App() {
       //   url: "/user/login",
       //   method: "POST",
       //   data: user,
-      // });
-      // handleLogin(`Bearer ${data.access_token}`);
-      // console.log(data.role, "< ==")
-      // if (data.role === "Admin") {
-      //   setRoleUser(data.role);
-      // }
-
-      // handleLogin(`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQ2M2M1OWVkYzkzZDdjM2U5NmI2MWQiLCJ1c2VybmFtZSI6ImFkbWluMSIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTcxNjMwMTgzOX0.9iNp7q5_cfgHxjWgnQWcTQ4Q7C0BN92J_pPQOLIIBDc`);
-      // setRoleUser("Admin");
-
-      handleLogin(`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQ2MThkMTJiNWQ1MjBmZTg0MDNiNzgiLCJ1c2VybmFtZSI6InZhbmthNjYiLCJyb2xlIjoiVXNlciIsImlhdCI6MTcxNjMwMjQzNn0.GFHhvguqM9tLCHU5qw3J8QVVJfPElFWCW3F_d2ISaY8`);
-      setRoleUser("User");
-    } catch (e) {
-      alert(e.response.data.message);
-      console.log(e, "< === error");
-      console.log(e.response.data.message, "<===");
+      // })
+      const { data }: Respons = await axios({
+        url: "/user/login",
+        method: "POST",
+        data: user,
+      });
+      handleLogin(`Bearer ${data.access_token}`);
+    } catch (error) {
+      if (pureAxios.isAxiosError(error)) {
+        // error is an AxiosError
+        alert(error.response?.data?.message);
+      } else {
+        // Handle other types of errors (if any)
+        alert("An unexpected error occurred");
+      }
     }
   };
 
@@ -58,19 +58,13 @@ export default function App() {
         <View
           style={{
             flex: 1,
-            padding: 10,
-            borderRadius: 25,
-            borderWidth: 3,
-            borderColor: "gray",
+            padding: 15,
           }}
         >
           <View
             style={{
               flex: 3,
               // backgroundColor: "gray",
-              borderRadius: 25,
-              borderColor: "#eecc6a",
-              borderWidth: 3,
               marginBottom: 10,
               justifyContent: "center",
               alignItems: "center",
@@ -98,14 +92,12 @@ export default function App() {
             <Pressable onPress={loginAction}>
               <View
                 style={{
-                  borderRadius: 30,
-                  borderColor: "#eecc6a",
-                  borderWidth: 1,
+                  borderRadius: 15,
                   marginTop: 5,
                   backgroundColor: "#eecc6a",
                   alignItems: "center",
                   justifyContent: "center",
-                  height: 35,
+                  height: 50,
                 }}
               >
                 <Text> Login </Text>
@@ -113,17 +105,15 @@ export default function App() {
             </Pressable>
           </View>
 
-          {/* <Pressable onPress={moveToStandings}>
-            <Text>Standings</Text>
-          </Pressable> */}
-
-          <View style={{ flex: 1, alignItems: "center" }}>
-            <Text style={{ marginTop: 5, marginBottom: 5 }}>
-              You have not account?
-              <Link href={"/register"} style={{ color: "blue", fontSize: 16 }}>
-                Register
-              </Link>
+          <View
+            style={{ flex: 1, flexDirection: "row", justifyContent: "center" }}
+          >
+            <Text style={{ fontSize: 14, marginRight: 2, color: "grey" }}>
+              Dont have an account? Register
             </Text>
+            <Link href={"/register"} style={{ color: "#eecc6a", fontSize: 14 }}>
+              here
+            </Link>
           </View>
         </View>
       </KeyboardAwareScrollView>
