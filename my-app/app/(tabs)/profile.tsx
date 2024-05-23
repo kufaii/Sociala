@@ -130,6 +130,13 @@ export default function TabTwoScreen() {
               {"  "}
               <Text style={styles.profileUsername}>@{user.username}</Text>
             </Text>
+            <Text style={{ color: "gray", fontSize: 14, fontWeight: "400" }}>
+              {user.category === "adventure"
+                ? "Adventurer"
+                : user.category === "social"
+                ? "Public-spirited"
+                : "Wellness-minded"}
+            </Text>
 
             <View style={styles.progressBarContainer}>
               <Text style={styles.progressBarTitle}>
@@ -220,8 +227,8 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     position: "absolute",
-    top: 50,
-    right: 50,
+    top: 30,
+    right: 20,
     backgroundColor: "rgba(255, 255, 255, 0.5)",
     borderRadius: 20,
     padding: 10,
@@ -253,13 +260,15 @@ const styles = StyleSheet.create({
   editProfilePressable: {
     backgroundColor: "white",
     borderRadius: 12,
-    height: 35,
+    height: 30,
     width: 105,
     borderWidth: 1,
     borderColor: "grey",
+    textAlign: "center",
+    textAlignVertical: "center",
   },
   editProfileText: {
-    // textAlign: "center",
+    color: "grey",
   },
   profileInfo: {
     backgroundColor: "#f5f5f5",
@@ -271,7 +280,7 @@ const styles = StyleSheet.create({
   profileUsername: {
     color: "gray",
     fontSize: 24,
-    fontWeight: "300",
+    fontWeight: "400",
   },
   profileBio: {
     marginTop: 10,
