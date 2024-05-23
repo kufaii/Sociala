@@ -31,9 +31,40 @@ export default function TabTwoScreen() {
     { title: "Individu", icon: "user-alt" },
   ];
 
+  const historyIcon = (category: string) => {
+    let iconName;
+    switch (category) {
+      case "adventure":
+        iconName = "space-shuttle";
+        break;
+      case "social":
+        iconName = "users";
+        break;
+
+      default:
+        iconName = "user-alt";
+        break;
+    }
+    return <Icon name={iconName} />;
+  };
+
   const renderItem = ({ item }) => (
-    <View style={styles.historyItem}>
-      <Text>{item.title}</Text>
+    <View style={styles.historyCard}>
+      <Text>
+        {historyIcon(item.Details[0].category)}
+        {"  "}
+        {item.Details[0].name}
+      </Text>
+      <Text
+        style={{
+          textAlign: "right",
+          marginTop: 10,
+          fontWeight: "500",
+          color: "#eecc6a",
+        }}
+      >
+        +{item.Details[0].point}
+      </Text>
     </View>
   );
 
@@ -68,7 +99,7 @@ export default function TabTwoScreen() {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1, paddingTop: 28 }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.headerImageContainer}>
         <Image
           source={{
@@ -158,6 +189,13 @@ export default function TabTwoScreen() {
             showsVerticalScrollIndicator={false}
             dropdownStyle={styles.dropdownMenuStyle}
           />
+          <FlatList
+            data={user.finishedMissions}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+            contentContainerStyle={{ paddingTop: 20 }}
+            ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+          />
         </View>
       </View>
     </SafeAreaView>
@@ -167,7 +205,7 @@ export default function TabTwoScreen() {
 const styles = StyleSheet.create({
   headerImageContainer: {
     width: "100%",
-    height: 105,
+    height: 145,
     backgroundColor: "#d3d3d3",
   },
   headerImage: {
@@ -177,6 +215,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: "relative",
+    backgroundColor: "#f5f5f5",
   },
   logoutButton: {
     position: "absolute",
@@ -212,7 +251,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 12,
     height: 35,
-    width: 85,
+    width: 105,
     borderWidth: 1,
     borderColor: "grey",
     alignItems: "center",
@@ -223,7 +262,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   profileInfo: {
-    borderBottomWidth: 1,
+    backgroundColor: "#f5f5f5",
   },
   profileName: {
     fontSize: 24,
@@ -249,7 +288,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   progressBar: {
-    height: 20,
+    height: 18,
     width: "75%",
     backgroundColor: "#e0e0e0",
     borderRadius: 10,
@@ -257,11 +296,12 @@ const styles = StyleSheet.create({
   },
   progressBarFill: {
     height: "100%",
-    backgroundColor: "#FFD700",
+    backgroundColor: "#eecc6a",
   },
   historyContainer: {
     flex: 1,
     paddingHorizontal: 20,
+    backgroundColor: "#ffffff",
   },
   historyTitle: {
     fontSize: 20,
@@ -319,5 +359,13 @@ const styles = StyleSheet.create({
     padding: 20,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
+  },
+  historyCard: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    height: "auto",
+    width: "100%",
+    borderRadius: 10,
+    backgroundColor: "#f5f5f5",
   },
 });

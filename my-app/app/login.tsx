@@ -105,10 +105,6 @@ export default function App() {
             </Pressable>
           </View>
 
-          {/* <Pressable onPress={moveToStandings}>
-            <Text>Standings</Text>
-          </Pressable> */}
-
           <View
             style={{ flex: 1, flexDirection: "row", justifyContent: "center" }}
           >

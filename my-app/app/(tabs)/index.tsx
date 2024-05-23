@@ -1,5 +1,5 @@
 import { AuthProperty } from "@/AuthProvider";
-import { Link } from "expo-router";
+import { Link, useNavigation } from "expo-router";
 import {
   Image,
   StyleSheet,
@@ -8,6 +8,7 @@ import {
   Text,
   Dimensions,
   FlatList,
+  Pressable,
 } from "react-native";
 import { useEffect, useState } from "react";
 import axios from "@/instance";
@@ -15,11 +16,11 @@ import axios from "@/instance";
 const { height, width } = Dimensions.get("window");
 
 const DATA = [
-  { name: "Misi 1", location: "JAKARTA", poin: 150 },
-  { name: "Misi 2", location: "SURABAYA Broo", poin: 500 },
-  { name: "Misi 3", location: "JAKARTA", poin: 250 },
-  { name: "Misi 4", location: "SURABAYA", poin: 450 },
-  { name: "Misi 5", location: "JAKARTA", poin: 350 },
+  { name: "Begal Di Pasar Turi", location: "JAKARTA", poin: 150 },
+  { name: "Clean Up the Beach", location: "SURABAYA", poin: 500 },
+  { name: "Meditation in the Park", location: "JAKARTA", poin: 250 },
+  { name: "Surabaya Food Crawl", location: "SURABAYA", poin: 450 },
+  { name: "Street Art Tour", location: "JAKARTA", poin: 350 },
 ];
 
 interface Location {
@@ -106,60 +107,79 @@ export default function HomeScreen() {
     dataUser();
   }, []);
 
+  const navigation = useNavigation();
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.innerContainer}>
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Hello {detailUser?.username}</Text>
-          <Text style={styles.cardSubtitle}>
-            Lv.{detailUser?.point ? Math.floor(detailUser.point / 100) : 0}
-          </Text>
+          <Text style={{ fontSize: 30 }}>X</Text>
         </View>
-        <View style={{ paddingHorizontal: 20 }}>
-          <Text style={styles.sectionTitle}>Daily mission :</Text>
-          <Link href={"/detail/" + userMission?._id} style={styles.missionCard}>
-            <View
+        <View style={{ paddingHorizontal: 30 }}>
+          <Text style={styles.mainSectionTitle}>
+            Here's daily mission for you:
+          </Text>
+          <View style={styles.mainMissionCard}>
+            <Link href={"/detail/" + userMission?._id}>
+              <Text style={styles.missionName}>{userMission?.name}</Text>
+            </Link>
+            <Text
               style={{
-                width: width - 40,
-                paddingHorizontal: 10,
+                textAlign: "right",
+                marginTop: 10,
+                fontWeight: "500",
+                color: "#ffffff",
               }}
             >
-              <Text style={styles.missionName}>{userMission?.name}</Text>
-            </View>
-
-            <Text style={styles.missionDescription}>
-              {userMission?.description}
+              +{userMission?.point}
             </Text>
-          </Link>
+          </View>
         </View>
-        <View>
+        <View style={{ paddingTop: 30, paddingHorizontal: 10 }}>
           <Text style={styles.sectionTitle}>Sosial mission for you :</Text>
           <FlatList
             data={DATA}
             horizontal
             renderItem={({ item }) => (
-              <View style={styles.missionCard}>
-                <Image
-                  source={{
-                    uri: "https://i.pinimg.com/564x/b2/ce/77/b2ce77463fa02f88282b5b59d34db30f.jpg",
-                  }}
-                  style={styles.missionImage}
-                />
-                <View style={styles.missionInfo}>
-                  <View style={styles.locationContainer}>
-                    <Text style={styles.locationText}>{item.location}</Text>
+              <Link href={"/detail/" + userMission?._id}>
+                <View style={styles.missionCard}>
+                  <Image
+                    source={{
+                      uri: "https://i.pinimg.com/564x/b2/ce/77/b2ce77463fa02f88282b5b59d34db30f.jpg",
+                    }}
+                    style={styles.missionImage}
+                  />
+                  <View style={styles.missionInfo}>
+                    <View
+                      style={{
+                        paddingTop: 10,
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        paddingHorizontal: 20,
+                      }}
+                    >
+                      <Text style={styles.locationText}>{item.location}</Text>
+                      <Text style={styles.poinText}>+{item.poin}</Text>
+                    </View>
+                    <Text style={styles.missionName}>{item.name}</Text>
                   </View>
-                  <Text style={styles.missionName}>{item.name}</Text>
-                  <View style={styles.poinContainer}>
-                    <Text style={styles.poinText}>+{item.poin}</Text>
+                  <Text
+                    style={{
+                      marginTop: 10,
+                      marginBottom: 5,
+                      paddingHorizontal: 30,
+                    }}
+                  >
+                    Participant:
+                  </Text>
+                  <View style={styles.userContainer}>
+                    <View style={styles.userBox} />
+                    <View style={styles.userBox} />
+                    <View style={styles.userBox} />
                   </View>
                 </View>
-                <Text style={styles.missionDescription}>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s.
-                </Text>
-              </View>
+              </Link>
             )}
             ItemSeparatorComponent={Separator}
             snapToInterval={width - 30}
@@ -206,11 +226,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   card: {
-    backgroundColor: "#ff8906",
-    height: 80,
+    height: "auto",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 20,
     borderRadius: 10,
-    paddingHorizontal: 10,
-    marginHorizontal: 20,
+    paddingHorizontal: 30,
+    marginBottom: 20,
   },
   cardTitle: {
     fontSize: 30,
@@ -218,24 +240,35 @@ const styles = StyleSheet.create({
   cardSubtitle: {
     fontSize: 23,
   },
+  mainSectionTitle: {
+    fontSize: 20,
+    marginBottom: 8,
+  },
   sectionTitle: {
-    paddingTop: 40,
     fontSize: 26,
     marginBottom: 8,
   },
-  missionCard: {
-    height: 200,
-    width: width - 40,
+  mainMissionCard: {
+    height: 125,
+    width: "auto",
     borderRadius: 10,
-    padding: 5,
-    backgroundColor: "#ff8906",
-    justifyContent: "center",
-    alignItems: "center",
+    padding: 20,
+    backgroundColor: "#eecc6a",
+  },
+  missionCard: {
+    height: 430,
+    width: width - 40,
+    // borderBottomRightRadius: 20,
+    // borderBottomLeftRadius: 20,
+    borderRadius: 20,
+    backgroundColor: "#eecc6a",
   },
   missionImage: {
     width: "100%",
-    height: "100%",
-    borderRadius: 15,
+    height: "60%",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    resizeMode: "cover",
   },
   missionInfo: {
     width: "100%",
@@ -258,6 +291,7 @@ const styles = StyleSheet.create({
   missionName: {
     fontSize: 20,
     fontWeight: "600",
+    paddingHorizontal: 20,
   },
   poinContainer: {
     backgroundColor: "#f25f4c",
@@ -281,5 +315,16 @@ const styles = StyleSheet.create({
   },
   separator: {
     width: 10,
+  },
+  userContainer: {
+    flexDirection: "row",
+    paddingHorizontal: 30,
+    gap: 10,
+  },
+  userBox: {
+    width: 50,
+    height: 50,
+    backgroundColor: "grey",
+    borderRadius: 10,
   },
 });
