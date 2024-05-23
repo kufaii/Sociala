@@ -119,27 +119,21 @@ export default function HomeScreen() {
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Hello {detailUser?.username}</Text>
           <Text style={styles.cardSubtitle}>
-            Lv.{detailUser?.poin ? detailUser.point / 100 : 0}
+            Lv.{detailUser?.point ? Math.floor(detailUser.point / 100) : 0}
           </Text>
         </View>
-        <View>
+        <View style={{ paddingHorizontal: 20 }}>
           <Text style={styles.sectionTitle}>Daily mission :</Text>
           <Link href={"/detail/" + userMission?._id} style={styles.missionCard}>
-            <Image
-              source={{
-                uri: "https://i.pinimg.com/564x/b2/ce/77/b2ce77463fa02f88282b5b59d34db30f.jpg",
+            <View
+              style={{
+                width: width - 40,
+                paddingHorizontal: 10,
               }}
-              style={styles.missionImage}
-            />
-            <View style={styles.missionInfo}>
-              <View style={styles.locationContainer}>
-                <Text style={styles.locationText}>{userMission?.city}</Text>
-              </View>
+            >
               <Text style={styles.missionName}>{userMission?.name}</Text>
-              <View style={styles.poinContainer}>
-                <Text style={styles.poinText}>+{userMission?.point}</Text>
-              </View>
             </View>
+
             <Text style={styles.missionDescription}>
               {userMission?.description}
             </Text>
@@ -190,7 +184,9 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 28,
   },
-  innerContainer: {},
+  innerContainer: {
+    paddingTop: 20,
+  },
   header: {
     alignItems: "center",
   },
@@ -207,47 +203,38 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: "#ff8906",
-    height: 200,
-    borderRadius: 20,
-    padding: 20,
-    justifyContent: "space-between",
-    borderWidth: 2,
+    height: 80,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    marginHorizontal: 20,
   },
   cardTitle: {
-    fontSize: 35,
+    fontSize: 30,
   },
   cardSubtitle: {
-    fontSize: 24,
+    fontSize: 23,
   },
   sectionTitle: {
-    fontSize: 35,
+    paddingTop: 40,
+    fontSize: 26,
     marginBottom: 8,
-    color: "#fffffe",
   },
   missionCard: {
     height: 200,
     width: width - 40,
-    borderRadius: 20,
+    borderRadius: 10,
     padding: 5,
-    borderWidth: 2,
     backgroundColor: "#ff8906",
     justifyContent: "center",
     alignItems: "center",
-    position: "relative",
   },
   missionImage: {
     width: "100%",
     height: "100%",
     borderRadius: 15,
-    position: "absolute",
   },
   missionInfo: {
-    position: "absolute",
-    top: 10,
-    left: 10,
-    right: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
+    width: "100%",
     paddingHorizontal: 10,
     paddingTop: 10,
   },
@@ -265,10 +252,8 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   missionName: {
-    fontSize: 35,
-    color: "#fffffe",
-    zIndex: 1,
-    fontWeight: "bold",
+    fontSize: 20,
+    fontWeight: "600",
   },
   poinContainer: {
     backgroundColor: "#f25f4c",
@@ -288,7 +273,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingTop: 32,
     color: "#fffffe",
-    zIndex: 1,
     fontWeight: "bold",
   },
   separator: {
