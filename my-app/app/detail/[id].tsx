@@ -16,6 +16,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useLocalSearchParams } from "expo-router";
 import axios from "@/instance";
 import { AuthProperty } from "@/AuthProvider";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 interface Location {
   latitude: number;
@@ -195,16 +196,15 @@ export default function Map() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.header}>{missionDetail?.name}</Text>
+        <View style={styles.detailContent}>
+          <Text style={styles.header}>{missionDetail?.name}</Text>
+          <Text style={styles.descriptionTitle}>Description:</Text>
+          <Text style={styles.descriptionText}>
+            {missionDetail.description}
+          </Text>
+        </View>
         <View style={styles.detailsContainer}>
           <View>
-            <Text style={styles.descriptionTitle}>Description</Text>
-            <Text style={styles.descriptionText}>
-              {missionDetail.description}
-            </Text>
-          </View>
-          <View>
-            <Text style={styles.title}>Location</Text>
             <View style={styles.mapContainer}>
               <MapView
                 style={styles.map}
@@ -246,23 +246,27 @@ export default function Map() {
                                   } */}
               </MapView>
             </View>
-            <View style={styles.buttonContainer}>
-              <Button title="See detail location" onPress={focusOnLocation} />
-            </View>
+            <Pressable style={styles.buttonContainer} onPress={focusOnLocation}>
+              <Text>See detail location</Text>
+            </Pressable>
           </View>
-          <View style={styles.uploadButtonsContainer}>
+          <View style={styles.uploadButton}>
             <Pressable
-              style={styles.uploadButton}
               onPress={() => handleUpload("camera")}
+              style={styles.iconContainer}
             >
-              <Text style={styles.uploadText}>Take Photo</Text>
+              <Icon name="camera" size={30} />
             </Pressable>
+            <Text style={styles.uploadText}>Take Photo</Text>
+          </View>
+          <View style={styles.uploadButton2}>
             <Pressable
-              style={styles.uploadButton}
               onPress={() => handleUpload("library")}
+              style={styles.iconContainer}
             >
-              <Text style={styles.uploadText}>Choose Photo</Text>
+              <Icon name="archive" size={30} />
             </Pressable>
+            <Text style={styles.uploadText}>Choose Photo</Text>
           </View>
         </View>
       </View>
@@ -270,28 +274,40 @@ export default function Map() {
   );
 }
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#16161a", padding: 8 },
+  container: {
+    flex: 1,
+    backgroundColor: "#16161a",
+    paddingVertical: 20,
+  },
   content: {
     flex: 1,
     width: "90%",
-    backgroundColor: "blue",
+    height: "90%",
+    paddingTop: 20,
+    paddingHorizontal: 20,
+    backgroundColor: "#ffffff",
+    borderRadius: 15,
     alignSelf: "center",
   },
+  detailContent: {
+    backgroundColor: "#f5f5f5",
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 20,
+  },
   header: {
-    textAlign: "center",
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: "bold",
-    color: "white",
+    marginBottom: 20,
   },
   detailsContainer: { flex: 1, gap: 8 },
-  descriptionTitle: { fontSize: 45, fontWeight: "bold", color: "white" },
-  descriptionText: { fontSize: 20, color: "white" },
+  descriptionTitle: { fontSize: 16, fontWeight: "500" },
+  descriptionText: { fontSize: 16 },
   title: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "white",
+    fontSize: 16,
+    fontWeight: "500",
     textAlign: "center",
-    marginBottom: 16,
+    marginBottom: 5,
   },
   mapContainer: {
     height: 250,
@@ -302,21 +318,57 @@ const styles = StyleSheet.create({
     borderColor: "#ddd",
   },
   map: { ...StyleSheet.absoluteFillObject },
-  buttonContainer: { marginTop: 20, width: "100%" },
-  uploadButtonsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginTop: 20,
-  },
-  uploadButton: {
-    backgroundColor: "yellow",
-    borderRadius: 25,
-    width: 100,
-    height: 50,
+  buttonContainer: {
+    marginTop: 10,
+    width: "100%",
+    height: 30,
+    backgroundColor: "#eecc6a",
     justifyContent: "center",
     alignItems: "center",
+    borderRadius: 8,
   },
-  uploadText: { color: "black", fontWeight: "bold" },
+  uploadButtonsContainer: {
+    bottom: 20,
+    left: "50%",
+    transform: [{ translateX: -100 }],
+    position: "absolute",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: 300,
+  },
+  uploadButton: {
+    width: 100,
+    height: 80,
+    justifyContent: "space-between",
+    alignItems: "center",
+    bottom: 30,
+    right: 20,
+    position: "absolute",
+    paddingVertical: 15,
+  },
+  uploadButton2: {
+    width: 100,
+    height: 80,
+    justifyContent: "space-between",
+    alignItems: "center",
+    bottom: 30,
+    left: 20,
+    position: "absolute",
+    paddingVertical: 15,
+  },
+  uploadText: {
+    color: "black",
+    fontWeight: "500",
+    position: "relative",
+  },
+  iconContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: 60,
+    width: 60,
+    backgroundColor: "#eecc6a",
+    borderRadius: 60,
+  },
   uploadedImage: {
     width: "100%",
     height: 200,
