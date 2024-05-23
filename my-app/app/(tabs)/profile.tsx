@@ -1,6 +1,9 @@
 import { AuthProperty } from "@/AuthProvider";
 import axios from "@/instance";
+<<<<<<< HEAD
 import { Link } from "expo-router";
+=======
+>>>>>>> 0227c01aba9814b794eec74c092b0e23544a169b
 import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
@@ -100,7 +103,11 @@ export default function TabTwoScreen() {
   }, []);
 
   return (
+<<<<<<< HEAD
     <SafeAreaView style={{ flex: 1 }}>
+=======
+    <SafeAreaView style={{ flex: 1, paddingTop: 28 }}>
+>>>>>>> 0227c01aba9814b794eec74c092b0e23544a169b
       <View style={styles.headerImageContainer}>
         <Image
           source={{
@@ -190,6 +197,7 @@ export default function TabTwoScreen() {
             showsVerticalScrollIndicator={false}
             dropdownStyle={styles.dropdownMenuStyle}
           />
+<<<<<<< HEAD
           <FlatList
             data={user.finishedMissions}
             renderItem={renderItem}
@@ -197,6 +205,8 @@ export default function TabTwoScreen() {
             contentContainerStyle={{ paddingTop: 20 }}
             ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
           />
+=======
+>>>>>>> 0227c01aba9814b794eec74c092b0e23544a169b
         </View>
       </View>
     </SafeAreaView>
@@ -206,7 +216,11 @@ export default function TabTwoScreen() {
 const styles = StyleSheet.create({
   headerImageContainer: {
     width: "100%",
+<<<<<<< HEAD
     height: 145,
+=======
+    height: 105,
+>>>>>>> 0227c01aba9814b794eec74c092b0e23544a169b
     backgroundColor: "#d3d3d3",
   },
   headerImage: {
@@ -216,7 +230,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: "relative",
+<<<<<<< HEAD
     backgroundColor: "#f5f5f5",
+=======
+>>>>>>> 0227c01aba9814b794eec74c092b0e23544a169b
   },
   logoutButton: {
     position: "absolute",
@@ -247,6 +264,17 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 15,
     right: 15,
+<<<<<<< HEAD
+=======
+  },
+  editProfilePressable: {
+    backgroundColor: "white",
+    borderRadius: 12,
+    height: 35,
+    width: 85,
+    borderWidth: 1,
+    borderColor: "grey",
+>>>>>>> 0227c01aba9814b794eec74c092b0e23544a169b
     alignItems: "center",
     justifyContent: "center",
   },
@@ -259,10 +287,17 @@ const styles = StyleSheet.create({
     borderColor: "grey",
   },
   editProfileText: {
+<<<<<<< HEAD
     // textAlign: "center",
   },
   profileInfo: {
     backgroundColor: "#f5f5f5",
+=======
+    color: "grey",
+  },
+  profileInfo: {
+    borderBottomWidth: 1,
+>>>>>>> 0227c01aba9814b794eec74c092b0e23544a169b
   },
   profileName: {
     fontSize: 24,
@@ -288,7 +323,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   progressBar: {
+<<<<<<< HEAD
     height: 18,
+=======
+    height: 20,
+>>>>>>> 0227c01aba9814b794eec74c092b0e23544a169b
     width: "75%",
     backgroundColor: "#e0e0e0",
     borderRadius: 10,
@@ -296,12 +335,19 @@ const styles = StyleSheet.create({
   },
   progressBarFill: {
     height: "100%",
+<<<<<<< HEAD
     backgroundColor: "#eecc6a",
+=======
+    backgroundColor: "#FFD700",
+>>>>>>> 0227c01aba9814b794eec74c092b0e23544a169b
   },
   historyContainer: {
     flex: 1,
     paddingHorizontal: 20,
+<<<<<<< HEAD
     backgroundColor: "#ffffff",
+=======
+>>>>>>> 0227c01aba9814b794eec74c092b0e23544a169b
   },
   historyTitle: {
     fontSize: 20,
@@ -359,6 +405,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
+<<<<<<< HEAD
   },
   historyCard: {
     paddingHorizontal: 20,
@@ -367,5 +414,7 @@ const styles = StyleSheet.create({
     width: "100%",
     borderRadius: 10,
     backgroundColor: "#f5f5f5",
+=======
+>>>>>>> 0227c01aba9814b794eec74c092b0e23544a169b
   },
 });
