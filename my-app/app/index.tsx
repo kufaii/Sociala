@@ -11,45 +11,34 @@ import {
 import styles from "@/style";
 import { useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Link } from "expo-router";
-import axios from "@/instance"; //sesuaikan link via ngrok
-import pureAxios, { AxiosError } from "axios";
-import { AuthProperty } from "@/AuthProvider";
-
-interface Respons {
-  data: { access_token: string; role: string };
-}
 
 export default function App() {
-  const { handleLogin, setRoleUser } = AuthProperty();
+  const navigation = useNavigation();
 
   const [user, setUser] = useState({
     username: "",
     password: "",
   });
 
-  const loginAction = async () => {
-    try {
-      // const { data }: Respons = await axios({
-      //   url: "/user/login",
-      //   method: "POST",
-      //   data: user,
-      // })
-      const { data }: Respons = await axios({
-        url: "/user/login",
-        method: "POST",
-        data: user,
-      });
-      handleLogin(`Bearer ${data.access_token}`);
-    } catch (error) {
-      if (pureAxios.isAxiosError(error)) {
-        // error is an AxiosError
-        alert(error.response?.data?.message);
-      } else {
-        // Handle other types of errors (if any)
-        alert("An unexpected error occurred");
-      }
-    }
+  console.log(user, `<<<<<<<<<<`);
+
+  const loginHandler = () => {
+    // findOne{{user}}
+  };
+
+  const moveToStandings = () => {
+    navigation.navigate("standing" as never);
+  };
+  const moveToListPost = () => {
+    navigation.navigate("list-post" as never);
+  };
+
+  const moveToRegister = () => {
+    navigation.navigate("register" as never);
+  };
+
+  const pressButton = () => {
+    console.log("Ketekan");
   };
 
   return (
@@ -58,13 +47,19 @@ export default function App() {
         <View
           style={{
             flex: 1,
-            padding: 15,
+            padding: 10,
+            borderRadius: 25,
+            borderWidth: 3,
+            borderColor: "gray",
           }}
         >
           <View
             style={{
               flex: 3,
               // backgroundColor: "gray",
+              borderRadius: 25,
+              borderColor: "#eecc6a",
+              borderWidth: 3,
               marginBottom: 10,
               justifyContent: "center",
               alignItems: "center",
@@ -89,15 +84,17 @@ export default function App() {
               secureTextEntry={true}
             />
 
-            <Pressable onPress={loginAction}>
+            <Pressable onPress={pressButton}>
               <View
                 style={{
-                  borderRadius: 15,
+                  borderRadius: 30,
+                  borderColor: "#eecc6a",
+                  borderWidth: 1,
                   marginTop: 5,
                   backgroundColor: "#eecc6a",
                   alignItems: "center",
                   justifyContent: "center",
-                  height: 50,
+                  height: 35,
                 }}
               >
                 <Text> Login </Text>
@@ -105,23 +102,25 @@ export default function App() {
             </Pressable>
           </View>
 
-          {/* <Pressable onPress={moveToStandings}>
+          <Pressable onPress={moveToStandings}>
             <Text>Standings</Text>
-          </Pressable> */}
+          </Pressable>
+
+          <Pressable onPress={moveToListPost}>
+            <Text>Add Post </Text>
+          </Pressable>
 
           <View style={{ flex: 1, alignItems: "center" }}>
             <Text style={{ marginTop: 5, marginBottom: 5 }}>
-              You have not account?
-              <Link
-                href={"/register"}
+              You have not account? Register
+              <Text
+                onPress={moveToRegister}
                 style={{ color: "blue", fontSize: 16 }}
               >
-                Register
-              </Link>
+                {" "}
+                here{" "}
+              </Text>
             </Text>
-            <Link href={"/register"} style={{ color: "#eecc6a", fontSize: 14 }}>
-              here
-            </Link>
           </View>
         </View>
       </KeyboardAwareScrollView>
