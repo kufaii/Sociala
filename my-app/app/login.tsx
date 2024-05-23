@@ -104,20 +104,11 @@ export default function App() {
               </View>
             </Pressable>
           </View>
-
-          {/* <Pressable onPress={moveToStandings}>
-            <Text>Standings</Text>
-          </Pressable> */}
-
-          <View style={{ flex: 1, alignItems: "center" }}>
-            <Text style={{ marginTop: 5, marginBottom: 5 }}>
-              You have not account?
-              <Link
-                href={"/register"}
-                style={{ color: "blue", fontSize: 16 }}
-              >
-                Register
-              </Link>
+          <View
+            style={{ flex: 1, flexDirection: "row", justifyContent: "center" }}
+          >
+            <Text style={{ fontSize: 14, marginRight: 2, color: "grey" }}>
+              Dont have an account? Register
             </Text>
             <Link href={"/register"} style={{ color: "#eecc6a", fontSize: 14 }}>
               here
