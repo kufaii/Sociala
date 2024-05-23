@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, SafeAreaView, Image } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ProfileStandings from "@/components/ProfileStanding";
 import styles from "@/style"; // Assuming this has some global styles you want to use
-import axios from "axios";
+import axios from "@/instance";
 
 interface StandingData {
   // rank: number;
@@ -21,7 +21,7 @@ export default function Standing() {
     try {
       const response = await axios({
         method: "GET",
-        url: "https://e2be-182-253-50-31.ngrok-free.app/rank-user/",
+        url: "/rank-user/",
       });
       // console.log(response.data, `<<< ressss`);
       // console.log(response, `<<< yang response`);
@@ -31,7 +31,6 @@ export default function Standing() {
       console.log(error);
     }
   };
-  console.log(rank, `<<<< rank`);
 
   useEffect(() => {
     fetch();

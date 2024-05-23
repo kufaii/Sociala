@@ -16,15 +16,6 @@ export default function TabLayout() {
     return <Redirect href={"/login"} />;
   }
 
-  // if(roleUser === "Admin") {
-  //   return <Redirect href={"/dashbordAdmin"} />;
-  // }
-
-  let titlePage = roleUser === "Admin" ? "Dasbord" : "Home";
-  let ref = roleUser === "Admin" ? "/dashbordAdmin" : "/";
-  const namePage = roleUser === "Admin" ? "/dashbordAdmin" : "/";
-  console.log(titlePage, "< === Title nih");
-
   return (
     <Tabs
       screenOptions={{
@@ -35,8 +26,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: titlePage,
-          href: ref,
+          title: "Home",
+          href: "/",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "home" : "home-outline"}
@@ -51,7 +42,7 @@ export default function TabLayout() {
           title: "Leaderboard",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
-              name={focused ? "code-slash" : "code-slash-outline"}
+              name={focused ? "podium" : "podium-outline"}
               color={color}
             />
           ),
@@ -63,7 +54,7 @@ export default function TabLayout() {
           title: "Profile",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
-              name={focused ? "code-slash" : "code-slash-outline"}
+              name={focused ? "person-circle" : "person-circle-outline"}
               color={color}
             />
           ),

@@ -106,8 +106,6 @@ export default function HomeScreen() {
       setUserMission(data[0].Missions);
 
       handleSetDetail(res.data);
-      console.log("ini res data", res.data);
-      console.log(resSocial.data, "< === res social");
       setSocialMission(resSocial.data);
     } catch (error) {
       console.log(error, "< +===");
@@ -126,7 +124,10 @@ export default function HomeScreen() {
       <View style={styles.innerContainer}>
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Hello {detailUser?.username}</Text>
-          <Text style={{ fontSize: 30 }}>X</Text>
+          <Image
+            source={require("../../assets/images/logo-doang.png")}
+            style={{ height: 32, width: 20 }}
+          />
         </View>
         <View style={{ paddingHorizontal: 30 }}>
           <Text style={styles.mainSectionTitle}>
@@ -134,7 +135,11 @@ export default function HomeScreen() {
           </Text>
           <View style={styles.mainMissionCard}>
             <Link href={"/detail/" + userMission?._id}>
-              <Text style={styles.missionName}>{userMission?.name}</Text>
+              <Text style={styles.missionName}>
+                {userMission?.name
+                  ? userMission?.name
+                  : "Yay! you already finished all mission"}
+              </Text>
             </Link>
             <Text
               style={{
@@ -144,11 +149,11 @@ export default function HomeScreen() {
                 color: "#ffffff",
               }}
             >
-              +{userMission?.point}
+              {userMission?.point ? `+ ${userMission?.point}` : ""}
             </Text>
           </View>
         </View>
-        <View style={{ paddingTop: 30, paddingHorizontal: 10 }}>
+        <View style={{ paddingTop: 20, paddingHorizontal: 10 }}>
           <Text style={styles.sectionTitle}>Sosial mission for you :</Text>
           <FlatList
             data={socialMission}
@@ -167,7 +172,6 @@ export default function HomeScreen() {
                   <View style={styles.missionInfo}>
                     <View
                       style={{
-                        paddingTop: 10,
                         flexDirection: "row",
                         justifyContent: "space-between",
                         paddingHorizontal: 20,
@@ -180,55 +184,28 @@ export default function HomeScreen() {
                   </View>
                   <Text
                     style={{
-                      marginTop: 10,
-                      marginBottom: 5,
+                      marginVertical: 5,
                       paddingHorizontal: 30,
                     }}
                   >
                     Participant:
                   </Text>
-                  <FlatList
-                    data={socialMission.participants}
-                    horizontal={true}
-                    renderItem={({ item }) => (
-                      <View
-                        style={{
-                          width: 80,
-                          height: 80,
-                          backgroundColor: "white",
-                          padding: 10,
-                          alignItems: "center",
-                          justifyContent: "center",
-                          borderRadius: 15,
-                        }}
-                      >
-                        <View
-                          style={{
-                            width: 40,
-                            height: 40,
-                            backgroundColor: "blue",
-                            borderRadius: 50,
+                  <View style={{ paddingHorizontal: 30 }}>
+                    {item.participants?.length ? (
+                      item.participants?.map((el) => (
+                        <Image
+                          source={{
+                            uri: el.photo,
                           }}
+                          style={{ width: 40, height: 40, borderRadius: 20 }}
                         />
-                        <Text
-                          style={{
-                            fontWeight: "bold",
-                            fontSize: 20,
-                          }}
-                        >
-                          User 1
-                        </Text>
-                      </View>
+                      ))
+                    ) : (
+                      <Text style={{ fontWeight: "600", fontStyle: "italic" }}>
+                        Be the first to join!
+                      </Text>
                     )}
-                    ItemSeparatorComponent={separatorW}
-                    showsHorizontalScrollIndicator={false}
-                    decelerationRate="fast"
-                  />
-                  {/* <View style={styles.userContainer}>
-                    <View style={styles.userBox} />
-                    <View style={styles.userBox} />
-                    <View style={styles.userBox} />
-                  </View> */}
+                  </View>
                 </View>
               </Link>
             )}
@@ -269,6 +246,7 @@ const styles = StyleSheet.create({
     height: "auto",
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
     paddingVertical: 20,
     borderRadius: 10,
     paddingHorizontal: 30,
@@ -296,7 +274,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#eecc6a",
   },
   missionCard: {
-    height: 430,
+    height: 355,
     width: width - 40,
     // borderBottomRightRadius: 20,
     // borderBottomLeftRadius: 20,
@@ -305,7 +283,7 @@ const styles = StyleSheet.create({
   },
   missionImage: {
     width: "100%",
-    height: "60%",
+    height: "55%",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     resizeMode: "cover",
@@ -362,8 +340,8 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   userBox: {
-    width: 50,
-    height: 50,
+    width: 30,
+    height: 30,
     backgroundColor: "grey",
     borderRadius: 10,
   },
