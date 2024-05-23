@@ -154,7 +154,9 @@ export default function HomeScreen() {
             data={socialMission}
             horizontal
             renderItem={({ item }) => (
-              <Link href={"/detailSocial/" + userMission?._id}>
+              // ini yg work tapi masih dari yg self mission
+              // <Link href={"/detailSocial/" + userMission?._id}>
+              <Link href={"/detailSocial/" + item?._id}>
                 <View style={styles.missionCard}>
                   <Image
                     source={{
