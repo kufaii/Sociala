@@ -93,9 +93,9 @@ export default function HomeScreen() {
       });
 
       setUserMission(data[0].Missions);
-      console.log(" ><><><><>", data[0].Missions);
 
       handleSetDetail(res.data);
+      console.log("ini res data", res.data);
     } catch (error) {
       console.log(error, "< +===");
       console.log(error.response.data, "< +===");
