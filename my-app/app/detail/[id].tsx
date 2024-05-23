@@ -146,10 +146,6 @@ export default function Map() {
         });
 
         // Mengirimkan permintaan POST dengan Axios
-        console.log(
-          "ini id mission nya >>>.",
-          missionDetail.DetailMission[0]._id
-        );
 
         const { data } = await axios.post(
           `/mission/${missionDetail.DetailMission[0]._id}`,
