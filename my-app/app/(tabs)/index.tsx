@@ -93,10 +93,9 @@ export default function HomeScreen() {
       });
 
       setUserMission(data[0].Missions);
-      console.log(data[0].Missions.name, "Data ress");
+      console.log(" ><><><><>", data[0].Missions);
 
       handleSetDetail(res.data);
-      console.log(userMission, "< <misi usereerrrr");
     } catch (error) {
       console.log(error, "< +===");
       console.log(error.response.data, "< +===");
@@ -195,18 +194,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-<<<<<<< HEAD
-    backgroundColor: "#333",
-    padding: 8,
-  },
-  innerContainer: {
-    height: "90%",
-    borderRadius: 20,
-    gap: 25,
-    padding: 12,
-=======
     paddingTop: 28,
->>>>>>> a1ef223 (style: change profile page style)
   },
   innerContainer: {
     paddingTop: 20,

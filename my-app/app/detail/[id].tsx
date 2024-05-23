@@ -13,7 +13,7 @@ import * as Location from "expo-location";
 import CustomMarker from "../../components/customMarker";
 import * as ImagePicker from "expo-image-picker";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import axios from "@/instance";
 import { AuthProperty } from "@/AuthProvider";
 
@@ -45,7 +45,6 @@ const Separator = () => <View style={styles.separator} />;
 export default function Map() {
   const { access_token } = AuthProperty();
   const { id } = useLocalSearchParams();
-  console.log("ini id >>>", id);
 
   const initialLocation = { latitude: -2.5, longitude: 118.0 };
   const [myLocation, setMyLocation] = useState<Location>(initialLocation);
@@ -64,10 +63,15 @@ export default function Map() {
 
   const fetchDetail = async () => {
     try {
-      const { data } = await axios.get(`/mission/${id}`);
+      const { data } = await axios.get(`/mission/${id}`, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: access_token,
+        },
+      });
+      console.log("ini data>>>>> ", data);
 
       setMissionDetail(data[0]);
-      console.log(data, "< detail misi");
 
       if (data.location) {
         setPin({
@@ -100,7 +104,6 @@ export default function Map() {
       missionDetail.location?.latitude &&
       missionDetail.location?.longtitude
     ) {
-      console.log("masuk < ==2");
       const newRegion = {
         latitude: parseFloat(missionDetail?.location?.latitude),
         longitude: parseFloat(missionDetail?.location?.longtitude),
@@ -143,6 +146,11 @@ export default function Map() {
         });
 
         // Mengirimkan permintaan POST dengan Axios
+        console.log(
+          "ini id mission nya >>>.",
+          missionDetail.DetailMission[0]._id
+        );
+
         const { data } = await axios.post(
           `/mission/${missionDetail.DetailMission[0]._id}`,
           formData,
@@ -156,6 +164,7 @@ export default function Map() {
 
         console.log("Upload success:", data);
         alert("Upload Success", "File has been uploaded successfully.");
+        router.replace("/");
       }
     } catch (error) {
       console.error(
@@ -293,7 +302,7 @@ const styles = StyleSheet.create({
   },
   header: {
     textAlign: "center",
-    fontSize: 75,
+    fontSize: 20,
     fontWeight: "bold",
     color: "white",
   },

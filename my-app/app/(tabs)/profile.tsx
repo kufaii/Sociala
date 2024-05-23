@@ -1,5 +1,6 @@
 import { AuthProperty } from "@/AuthProvider";
 import axios from "@/instance";
+import { Link } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
@@ -246,6 +247,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 15,
     right: 15,
+    alignItems: "center",
+    justifyContent: "center",
   },
   editProfilePressable: {
     backgroundColor: "white",
@@ -254,12 +257,9 @@ const styles = StyleSheet.create({
     width: 105,
     borderWidth: 1,
     borderColor: "grey",
-    alignItems: "center",
-    justifyContent: "center",
   },
   editProfileText: {
-    color: "white",
-    textAlign: "center",
+    // textAlign: "center",
   },
   profileInfo: {
     backgroundColor: "#f5f5f5",
