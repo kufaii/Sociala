@@ -45,7 +45,7 @@ const Separator = () => <View style={styles.separator} />;
 export default function Map() {
   const { access_token } = AuthProperty();
   const { id } = useLocalSearchParams();
-
+  const [isAccept, setIsAccept] = useState(false);
   const initialLocation = { latitude: -2.5, longitude: 118.0 };
   const [myLocation, setMyLocation] = useState<Location>(initialLocation);
   const [pin, setPin] = useState<Location | null>(null);
@@ -63,6 +63,7 @@ export default function Map() {
 
   const fetchDetail = async () => {
     try {
+      // sesuaiin endpoint
       const { data } = await axios.get(`/mission/${id}`, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -171,10 +172,27 @@ export default function Map() {
     }
   };
 
+  const fetchSocial = async () => {
+    try {
+      const { data } = await axios({
+        url: "sesuaikan url social mission",
+      });
+    } catch (error) {
+      console.log(error, "< === error fetch social");
+    }
+  };
+
   useEffect(() => {
     fetchDetail();
     _getLocation();
   }, []);
+
+  useEffect(() => {
+    if (isAccept) {
+      // hit ke endpoint detail mission
+      fetchSocial();
+    }
+  }, [isAccept]);
 
   const memoizedCustomMarker = useMemo(
     () =>
@@ -196,6 +214,25 @@ export default function Map() {
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.header}>{missionDetail?.name}</Text>
+        {/* {missionDetail?.participants?.length > 1 && ( */}
+        <View style={styles.participantsContainer}>
+          <Text style={styles.participantsTitle}>All Participants</Text>
+          <FlatList
+            data={users}
+            horizontal
+            renderItem={({ item }) => (
+              <View style={styles.participantCard}>
+                <View style={styles.participantAvatar} />
+                <Text style={styles.participantName}>User 1</Text>
+              </View>
+            )}
+            ItemSeparatorComponent={Separator}
+            snapToInterval={width - 30}
+            showsHorizontalScrollIndicator={false}
+            decelerationRate="fast"
+          />
+        </View>
+        {/* )} */}
         <View style={styles.detailsContainer}>
           <View>
             <Text style={styles.descriptionTitle}>Description</Text>
@@ -251,18 +288,29 @@ export default function Map() {
             </View>
           </View>
           <View style={styles.uploadButtonsContainer}>
-            <Pressable
-              style={styles.uploadButton}
-              onPress={() => handleUpload("camera")}
-            >
-              <Text style={styles.uploadText}>Take Photo</Text>
-            </Pressable>
-            <Pressable
-              style={styles.uploadButton}
-              onPress={() => handleUpload("library")}
-            >
-              <Text style={styles.uploadText}>Choose Photo</Text>
-            </Pressable>
+            {isAccept ? (
+              <>
+                <Pressable
+                  style={styles.uploadButton}
+                  onPress={() => handleUpload("camera")}
+                >
+                  <Text style={styles.uploadText}>Take Photo</Text>
+                </Pressable>
+                <Pressable
+                  style={styles.uploadButton}
+                  onPress={() => handleUpload("library")}
+                >
+                  <Text style={styles.uploadText}>Choose Photo</Text>
+                </Pressable>
+              </>
+            ) : (
+              <Pressable
+                style={styles.uploadButton}
+                onPress={() => handleUpload("camera")}
+              >
+                <Text style={styles.uploadText}>Accept mission</Text>
+              </Pressable>
+            )}
           </View>
         </View>
       </View>
@@ -305,7 +353,7 @@ const styles = StyleSheet.create({
   buttonContainer: { marginTop: 20, width: "100%" },
   uploadButtonsContainer: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    // justifyContent: "space-around",
     marginTop: 20,
   },
   uploadButton: {
