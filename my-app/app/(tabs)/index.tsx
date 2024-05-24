@@ -61,14 +61,12 @@ interface UserData {
 const Separator = () => <View style={styles.separator} />;
 
 export default function HomeScreen() {
-  const { access_token } = AuthProperty();
+  const { access_token, detailUser } = AuthProperty();
   const [userData, setUserData] = useState<UserData>();
-  const { handleSetDetail, detailUser } = AuthProperty();
+  const { handleSetDetail } = AuthProperty();
   const [userMission, setUserMission] = useState<Missions | null>(null);
   const [socialMission, setSocialMission] = useState([]);
 
-  // Pastikan detailUser tidak undefined
-  // console.log(detailUser, "< == detail user");
 
   const dataUser = async () => {
     try {
@@ -151,8 +149,6 @@ export default function HomeScreen() {
             data={socialMission}
             horizontal
             renderItem={({ item }) => (
-              // ini yg work tapi masih dari yg self mission
-              // <Link href={"/detailSocial/" + userMission?._id}>
               <Link href={"/detailSocial/" + item?._id}>
                 <View style={styles.missionCard}>
                   <Image
@@ -184,7 +180,7 @@ export default function HomeScreen() {
                   >
                     Participant:
                   </Text>
-                  <View style={{ paddingHorizontal: 30 }}>
+                  <View style={{ paddingHorizontal: 30, flexDirection: "row", gap: 5 }}>
                     {item.participants?.length ? (
                       item.participants?.map((el) => (
                         <Image

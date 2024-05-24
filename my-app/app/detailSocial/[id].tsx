@@ -61,7 +61,7 @@ const users = [
 ];
 
 export default function Map() {
-  const { access_token } = AuthProperty();
+  const { access_token, detailUser } = AuthProperty();
   const { id } = useLocalSearchParams();
   const [isAccept, setIsAccept] = useState(false);
   const initialLocation = { latitude: -2.5, longitude: 118.0 };
@@ -82,16 +82,23 @@ export default function Map() {
   const fetchDetail = async () => {
     try {
       // sesuaiin endpoint
-      const { data } = await axios.get(`/mission/${id}`, {
+      const { data } = await axios.get(`/social/mission/${id}`, {
         headers: {
-          "Content-Type": "multipart/form-data",
           Authorization: access_token,
         },
       });
+
       console.log("ini data>>>>> ", data);
 
-      setMissionDetail(data[0]);
+      const isValid = data?.participants?.some(participant => participant.username === detailUser.username);
 
+      console.log(isValid, "<<< valid gak")
+
+      if (isValid) {
+        setIsAccept(true);
+      }
+
+      setMissionDetail(data);
       if (data.location) {
         setPin({
           latitude: parseFloat(data.location.latitude),
@@ -99,7 +106,8 @@ export default function Map() {
         });
       }
     } catch (err) {
-      console.warn(err);
+      console.warn(err, "< == ");
+      console.warn(err.response, "< == ");
     }
   };
 
@@ -190,27 +198,34 @@ export default function Map() {
     }
   };
 
-  const fetchSocial = async () => {
+  const handleAccept = async () => {
     try {
+      console.log("masukkk", missionDetail._id)
       const { data } = await axios({
-        url: "sesuaikan url social mission",
-      });
+        method: "POST",
+        url: `/social/${missionDetail._id}`,
+        headers: {
+          Authorization: access_token
+        }
+      })
+
+      alert("Success join to mission")
+      setTimeout(() => {
+        setIsAccept(true)
+        router.replace("/detailSocial/1")
+      }, 1000);
     } catch (error) {
-      console.log(error, "< === error fetch social");
+      if (error?.response?.message === "You have already taken the mission") {
+        setIsAccept(true)
+      }
+      console.log(error.response, "<< --- error accept")
     }
-  };
+  }
 
   useEffect(() => {
     fetchDetail();
     _getLocation();
   }, []);
-
-  useEffect(() => {
-    if (isAccept) {
-      // hit ke endpoint detail mission
-      fetchSocial();
-    }
-  }, [isAccept]);
 
   const memoizedCustomMarker = useMemo(
     () =>
@@ -241,9 +256,11 @@ export default function Map() {
 
         {/* {missionDetail?.participants?.length > 1 && ( */}
         <View style={{}}>
-          <Text style={{}}>All Participants:</Text>
-          <FlatList
-            data={users}
+          <Text style={{}}>All Participant:</Text>
+          {!missionDetail.participants ? <Text style={{ fontWeight: "600", fontStyle: "italic", marginBottom: 15 }}>
+            Be the first to join!
+          </Text> : (<FlatList
+            data={missionDetail.participants}
             horizontal
             renderItem={({ item }) => (
               <View style={{}}>
@@ -266,7 +283,7 @@ export default function Map() {
             snapToInterval={width - 30}
             showsHorizontalScrollIndicator={false}
             decelerationRate="fast"
-          />
+          />)}
         </View>
         {/* )} */}
         <View style={styles.detailsContainer}>
@@ -324,7 +341,7 @@ export default function Map() {
           ) : (
             <View style={styles.uploadButton3}>
               <Pressable
-                onPress={() => setIsAccept(true)}
+                onPress={handleAccept}
                 style={styles.acceptContainer}
               >
                 <Text style={styles.uploadText}>Accept Mission</Text>
